@@ -8,6 +8,10 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
+            //Bundle per la gestione degli utenti loggati
+            new FOS\UserBundle\FOSUserBundle(),
+            
+			//Bundle installazione originale
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
