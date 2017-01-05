@@ -29,3 +29,10 @@ _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /admin
+
+users:
+    type:     rest
+    prefix:   /api/v1
+    host:     localhost
+    resource: AppBundle\Controller\UsersController
+    

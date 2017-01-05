@@ -29,6 +29,11 @@ class AppKernel extends Kernel
             // Storage and SonataAdminBundle
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\AdminBundle\SonataAdminBundle(),
+            
+			// Bundle for REST application
+			new FOS\RestBundle\FOSRestBundle(),
+			new JMS\SerializerBundle\JMSSerializerBundle(),
+		    
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
