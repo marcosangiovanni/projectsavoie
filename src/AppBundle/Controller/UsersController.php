@@ -21,21 +21,15 @@ class UsersController extends FOSRestController
     
     public function getUsersAction()
     {
-        $data = array('uno','due','tre');
-        $view = $this->view($data, 200)
-            //->setTemplate("MyBundle:Users:getUsers.html.twig")
-            ->setTemplateVar('users')
-        ;
-        return $this->handleView($view);
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+		if(!$users){
+			throw $this->createNotFoundException('No collection found');
+		}else{
+			$view = $this->view($users, 200);
+        	return $this->handleView($view);
+		}
     }
 
-    public function redirectAction()
-    {
-        $view = $this->routeRedirectView('some_route', array(), 301);
-        return $this->handleView($view);
-    }
-	
-	
 	public function copyUserAction($id) // RFC-2518
     {} // "copy_user"            [COPY] /users/{id}
 
