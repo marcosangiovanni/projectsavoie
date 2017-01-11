@@ -33,6 +33,9 @@ class AppKernel extends Kernel
 			// Bundle for REST application
 			new FOS\RestBundle\FOSRestBundle(),
 			new JMS\SerializerBundle\JMSSerializerBundle(),
+			
+			// To implement oauth2 authentication			
+            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
 		    
         );
 

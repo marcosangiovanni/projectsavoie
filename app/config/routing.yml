@@ -35,4 +35,8 @@ users:
     prefix:   /api/v1
     host:     localhost
     resource: AppBundle\Controller\UsersController
+
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
+
     
