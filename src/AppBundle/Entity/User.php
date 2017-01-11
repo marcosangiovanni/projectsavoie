@@ -56,7 +56,7 @@ class User extends BaseUser
     private $dob;
 
 	/**
-     * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user", cascade={"remove"})
      */	
     private $friends;
 
