@@ -14,6 +14,13 @@ class UsersController extends FOSRestController
     	$user = $this->get('security.context')->getToken()->getUser();
 		//Check che sia autenticato
 		var_dump($this->get('security.context')->isGranted('ROLE_ADMIN'));
+
+		/*
+		$clientManager = $this->get('fos_oauth_server.client_manager.default');
+		$client = $clientManager->createClient();
+		$client->setAllowedGrantTypes(array('authorization_code'));
+		$clientManager->updateClient($client);
+		*/
 		
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 		if(!$user){
