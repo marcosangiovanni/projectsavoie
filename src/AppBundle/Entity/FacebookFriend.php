@@ -40,7 +40,7 @@ class FacebookFriend
 	
 	public function __construct()
 	{
-		parent::__construct();
+		//parent::__construct();
 	}
 	
 	/* Recupero il nome dal modello */

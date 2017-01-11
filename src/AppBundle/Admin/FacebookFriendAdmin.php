@@ -11,9 +11,16 @@ class FacebookFriendAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper	->add('user_id')
+        $formMapper	//->add('user_id')
 					->add('name')
 					->add('facebook_uid')
+					->add('user', 'entity', array(
+							//'multiple' 	=> 	true,
+            				'class' 	=> 	'AppBundle\Entity\User',
+            				'property' 	=> 	'email',
+            				'attr' 		=> 	array('style' => 'width:200px')
+        				)
+					)
 		;
     }
 
@@ -28,9 +35,21 @@ class FacebookFriendAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper	->addIdentifier('id')
-					->add('user_id')
+					->add('user', 'entity', array(
+							'label' => 'User',
+            				'route' => array(
+                    			'name' => 'edit'
+                			)
+        				)
+					)
 					->add('name')
 					->add('facebook_uid')
+					->add('_action', 'actions', array(
+			            'actions' => array(
+			                'edit' => array(),
+			                'delete' => array(),
+			            )
+		        ))
 		;
     }
 }

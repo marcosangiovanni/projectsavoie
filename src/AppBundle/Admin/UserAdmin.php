@@ -52,6 +52,12 @@ class UserAdmin extends Admin
 					->addIdentifier('username')
 					->addIdentifier('email')
 					->add('enabled')
+					->add('_action', 'actions', array(
+			            'actions' => array(
+			                'edit' => array(),
+			                'delete' => array(),
+			            )
+		        	))
 					/*
 					->add('friends', 'entity', array(
 							'multiple' 	=> 	true,
