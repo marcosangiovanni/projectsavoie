@@ -12,3 +12,9 @@ services:
         arguments: [~, AppBundle\Entity\User, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: User }
+
+    admin.facebook_friend:
+        class: AppBundle\Admin\FacebookFriendAdmin
+        arguments: [~, AppBundle\Entity\FacebookFriend, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: FacebookFriend }

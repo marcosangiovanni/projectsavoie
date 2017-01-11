@@ -42,6 +42,12 @@ class FacebookFriend
 	{
 		parent::__construct();
 	}
+	
+	/* Recupero il nome dal modello */
+	public function __toString()
+    {
+        return (string)$this->name;
+    }
 
     /**
      * Get id

@@ -12,26 +12,55 @@ class UserAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper	->add('username')
+        $formMapper	->add('name')
+					->add('surname')
+					->add('username')
 					->add('email')
-					->add('enabled')
+/*
+					->add('friends', 'entity', array(
+							'multiple' 	=> 	true,
+            				'class' 	=> 	'AppBundle\Entity\FacebookFriend',
+            				'property' 	=> 	'name',
+            				'attr' 		=> 	array('style' => 'width:200px')
+        				)
+					)
+*/
 		;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $datagridMapper	->add('username')
+        $datagridMapper	->add('name')
+						->add('surname')
+						->add('username')
 						->add('email')
-						->add('enabled')
+						->add('enabled', null, 	array('label' => 'Enabled'),'sonata_type_translatable_choice', array(
+											                													'translation_domain' => "SonataAdminBundle",
+																								                'choices' => array(
+																								                    1 => 'label_type_yes',
+																								                    2 => 'label_type_no'
+																								                ))
+			            )
 		;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper	->addIdentifier('id')
+					->addIdentifier('name')
+					->addIdentifier('surname')
 					->addIdentifier('username')
 					->addIdentifier('email')
-					->addIdentifier('enabled')
+					->add('enabled')
+					/*
+					->add('friends', 'entity', array(
+							'multiple' 	=> 	true,
+            				'class' 	=> 	'AppBundle\Entity\FacebookFriend',
+            				'property' 	=> 	'name',
+            				'attr' 		=> 	array('style' => 'width:200px')
+        				)
+					)
+					*/
 		;
     }
 }
