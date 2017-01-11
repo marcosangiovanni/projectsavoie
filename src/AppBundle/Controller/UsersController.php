@@ -10,6 +10,11 @@ class UsersController extends FOSRestController
 	// [GET] /users/{id}
 	public function getUserAction($id)
     {
+    	//Così si recupera l'utente
+    	$user = $this->get('security.context')->getToken()->getUser();
+		//Check che sia autenticato
+		var_dump($this->get('security.context')->isGranted('ROLE_ADMIN'));
+		
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 		if(!$user){
 			throw $this->createNotFoundException('No product found for id '.$id);
@@ -21,6 +26,11 @@ class UsersController extends FOSRestController
     
     public function getUsersAction()
     {
+    	//Così si recupera l'utente
+    	$user = $this->get('security.context')->getToken()->getUser();
+//		var_dump($this->get('security.context')->isGranted('ROLE_JCVD'));
+//		exit;
+		
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
 		if(!$users){
 			throw $this->createNotFoundException('No collection found');
