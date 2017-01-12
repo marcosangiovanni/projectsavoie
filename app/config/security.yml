@@ -16,7 +16,7 @@ security:
 
     firewalls:
         oauth_token:                                   # Everyone can access the access token URL.
-            pattern: ^/oauth/v2/token
+            pattern: ^/api/v1/oauth/v2/token
             security: false
         api:
             pattern: ^/api                             # All URLs are protected

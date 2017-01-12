@@ -36,11 +36,7 @@ users:
     host:     localhost
     resource: AppBundle\Controller\UsersController
 
+#Riscritto oauth per aggiunta prefisso /api
 fos_oauth_server_token:
-    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
-
-#fos_oauth_server_authorize:
-#    resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
-
-
-    
+  path:     /api/v1/oauth/v2/token
+  defaults: { _controller: fos_oauth_server.controller.token:tokenAction }
