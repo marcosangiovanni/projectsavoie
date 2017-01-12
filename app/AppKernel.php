@@ -36,6 +36,9 @@ class AppKernel extends Kernel
 			
 			// To implement oauth2 authentication			
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            
+			//Cors manager (tipically for swagger disable in prod ENV)
+			new Nelmio\CorsBundle\NelmioCorsBundle(),
 		    
         );
 
