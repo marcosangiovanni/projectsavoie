@@ -7,9 +7,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UsersController extends FOSRestController
 {
+	
+	private function setHeaderForSwagger(){
+		if(in_array($this->get('kernel')->getEnvironment(), array('test', 'dev'))) {
+			header("Access-Control-Allow-Origin: *");
+		}
+	}
+	
 	// [GET] /users/{id}
 	public function getUserAction($id)
     {
+    	//die('unauTOOOOOOOOOOOOOOOOOOO');
+		$this->setHeaderForSwagger();
+		//die('dashgdjhdjas');
+		
     	//Così si recupera l'utente
     	$user = $this->get('security.context')->getToken()->getUser();
 		//Check che sia autenticato

@@ -33,6 +33,7 @@ monolog:
 #swiftmailer:
 #    delivery_address: me@example.com
 
+
 nelmio_cors:
     defaults:
         allow_credentials: false
@@ -45,8 +46,12 @@ nelmio_cors:
         origin_regex: false
         forced_allow_origin_value: ~
     paths:
-        '^/api/':
+        '^/':
+            #origin_regex: true
             allow_origin: ['*']
             allow_headers: ['*']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
             max_age: 3600
+            #hosts: ['^api\.']            
+
+
