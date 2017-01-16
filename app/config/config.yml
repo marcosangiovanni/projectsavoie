@@ -73,10 +73,10 @@ fos_rest:
 
 fos_oauth_server:
     db_driver:           orm
-    client_class:        AppBundle\Entity\Client
-    access_token_class:  AppBundle\Entity\AccessToken
-    refresh_token_class: AppBundle\Entity\RefreshToken
-    auth_code_class:     AppBundle\Entity\AuthCode
+    client_class:        AppBundle\Entity\Auth\Client
+    access_token_class:  AppBundle\Entity\Auth\AccessToken
+    refresh_token_class: AppBundle\Entity\Auth\RefreshToken
+    auth_code_class:     AppBundle\Entity\Auth\AuthCode
     service:
         user_provider: fos_user.user_manager             # This property will be used when valid credentials are given to load the user upon access token creation
         

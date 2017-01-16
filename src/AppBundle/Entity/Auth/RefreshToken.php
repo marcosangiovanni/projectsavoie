@@ -1,14 +1,14 @@
 <?php
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Auth;
 
-use FOS\OAuthServerBundle\Entity\AuthCode as BaseAuthCode;
+use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table("oauth2_auth_codes")
+ * @ORM\Table("oauth2_refresh_tokens")
  * @ORM\Entity
  */
-class AuthCode extends BaseAuthCode
+class RefreshToken extends BaseRefreshToken
 {
     /**
      * @ORM\Id
@@ -24,7 +24,7 @@ class AuthCode extends BaseAuthCode
     protected $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
     protected $user;
 }

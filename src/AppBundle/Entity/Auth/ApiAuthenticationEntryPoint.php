@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Auth;
+namespace AppBundle\Entity\Auth;
 
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;

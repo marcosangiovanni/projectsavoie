@@ -20,5 +20,5 @@ services:
             - { name: sonata.admin, manager_type: orm, label: FacebookFriend }
             
     api_authentication_entry_point:
-         class: AppBundle\Auth\ApiAuthenticationEntryPoint
+         class: AppBundle\Entity\Auth\ApiAuthenticationEntryPoint
          arguments: [ api ]
