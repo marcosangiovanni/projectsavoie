@@ -61,170 +61,73 @@ class User extends BaseUser
     private $friends;
 
 
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
 		$this->friends = new ArrayCollection();
     }
 	
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return User
-     */
-    public function setName($name)
-    {
+	/* Set methods */
+    public function setName($name){
         $this->name = $name;
-
+        return $this;
+    }
+	
+    public function setSurname($surname){
+        $this->surname = $surname;
+        return $this;
+    }
+    
+    public function setPhone($phone){
+        $this->phone = $phone;
+        return $this;
+    }
+	
+    public function setPicture($picture){
+        $this->picture = $picture;
+        return $this;
+    }
+	
+    public function setVideo($video){
+        $this->video = $video;
+        return $this;
+    }
+	
+    public function setCity($city){
+        $this->city = $city;
+        return $this;
+    }
+	
+    public function setDob($dob){
+        $this->dob = $dob;
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
+	/* Get methods */
+    public function getName(){
         return $this->name;
     }
 
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     * @return User
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string 
-     */
-    public function getSurname()
-    {
+    public function getSurname(){
         return $this->surname;
     }
 
-    /**
-     * Set phone
-     *
-     * @param string $phone
-     * @return User
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * Get phone
-     *
-     * @return string 
-     */
-    public function getPhone()
-    {
+    public function getPhone(){
         return $this->phone;
     }
 
-    /**
-     * Set picture
-     *
-     * @param string $picture
-     * @return User
-     */
-    public function setPicture($picture)
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * Get picture
-     *
-     * @return string 
-     */
-    public function getPicture()
-    {
+    public function getPicture(){
         return $this->picture;
     }
 
-    /**
-     * Set video
-     *
-     * @param string $video
-     * @return User
-     */
-    public function setVideo($video)
-    {
-        $this->video = $video;
-
-        return $this;
-    }
-
-    /**
-     * Get video
-     *
-     * @return string 
-     */
-    public function getVideo()
-    {
+    public function getVideo(){
         return $this->video;
     }
 
-    /**
-     * Set city
-     *
-     * @param string $city
-     * @return User
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    /**
-     * Get city
-     *
-     * @return string 
-     */
-    public function getCity()
-    {
+    public function getCity(){
         return $this->city;
     }
 
-    /**
-     * Set dob
-     *
-     * @param \DateTime $dob
-     * @return User
-     */
-    public function setDob($dob)
-    {
-        $this->dob = $dob;
-
-        return $this;
-    }
-
-    /**
-     * Get dob
-     *
-     * @return \DateTime 
-     */
-    public function getDob()
-    {
+    public function getDob(){
         return $this->dob;
     }
 
@@ -234,10 +137,8 @@ class User extends BaseUser
      * @param \AppBundle\Entity\FacebookFriend $friends
      * @return User
      */
-    public function addFriend(\AppBundle\Entity\FacebookFriend $friends)
-    {
+    public function addFriend(\AppBundle\Entity\FacebookFriend $friends){
         $this->friends[] = $friends;
-
         return $this;
     }
 
@@ -246,8 +147,7 @@ class User extends BaseUser
      *
      * @param \AppBundle\Entity\FacebookFriend $friends
      */
-    public function removeFriend(\AppBundle\Entity\FacebookFriend $friends)
-    {
+    public function removeFriend(\AppBundle\Entity\FacebookFriend $friends){
         $this->friends->removeElement($friends);
     }
 
@@ -256,8 +156,7 @@ class User extends BaseUser
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFriends()
-    {
+    public function getFriends(){
         return $this->friends;
     }
 }

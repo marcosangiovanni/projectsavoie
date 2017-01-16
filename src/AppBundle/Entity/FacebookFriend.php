@@ -38,93 +38,40 @@ class FacebookFriend
      */
     private $user;
 	
-	public function __construct()
-	{
-		//parent::__construct();
-	}
-	
 	/* Recupero il nome dal modello */
 	public function __toString()
     {
         return (string)$this->name;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
+    public function getId(){
         return $this->id;
     }
 
-    /**
-     * Set user_id
-     *
-     * @param integer $userId
-     * @return FacebookFriend
-     */
-    public function setUserId($userId)
-    {
+    public function setUserId($userId){
         $this->user_id = $userId;
-
         return $this;
     }
 
-    /**
-     * Get user_id
-     *
-     * @return integer 
-     */
-    public function getUserId()
-    {
+    public function getUserId(){
         return $this->user_id;
     }
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return FacebookFriend
-     */
-    public function setName($name)
-    {
+    public function setName($name){
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
+    public function getName(){
         return $this->name;
     }
 
-    /**
-     * Set facebook_uid
-     *
-     * @param string $facebookUid
-     * @return FacebookFriend
-     */
-    public function setFacebookUid($facebookUid)
-    {
+    public function setFacebookUid($facebookUid){
         $this->facebook_uid = $facebookUid;
-
         return $this;
     }
 
-    /**
-     * Get facebook_uid
-     *
-     * @return string 
-     */
-    public function getFacebookUid()
-    {
+    public function getFacebookUid(){
         return $this->facebook_uid;
     }
 
@@ -134,10 +81,8 @@ class FacebookFriend
      * @param \AppBundle\Entity\User $user
      * @return FacebookFriend
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
+    public function setUser(\AppBundle\Entity\User $user = null){
         $this->user = $user;
-
         return $this;
     }
 
@@ -146,8 +91,7 @@ class FacebookFriend
      *
      * @return \AppBundle\Entity\User 
      */
-    public function getUser()
-    {
+    public function getUser(){
         return $this->user;
     }
 }
