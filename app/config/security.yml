@@ -23,6 +23,7 @@ security:
             fos_oauth: true                            # OAuth2 protected resource
             stateless: true                            # Do no set session cookies
             anonymous: false                           # Anonymous access is not allowed
+            entry_point: api_authentication_entry_point
         main:
             pattern: ^/
             form_login:
