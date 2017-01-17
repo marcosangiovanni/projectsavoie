@@ -3,12 +3,13 @@
 namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Sport;
 
-class UsersController extends FOSRestController
+class SportsController extends FOSRestController
 {
 
-	// [GET] /users/{id}
-	public function getUserAction($id)
+	// [GET] /sports/{id}
+	public function getSportAction($id)
     {
     	//Find USER By Token
     	$logged_user = $this->get('security.context')->getToken()->getUser();
@@ -16,40 +17,40 @@ class UsersController extends FOSRestController
 		//Check is granted
 		$is_granted = $this->get('security.context')->isGranted('ROLE_USER');
 		
-		//Find user data
-		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
-		if(!$user){
-			throw $this->createNotFoundException('No product found for id '.$id);
+		//Find sport data
+		$sport = $this->getDoctrine()->getRepository('AppBundle:Sport')->find($id);
+		if(!$sport){
+			throw $this->createNotFoundException('No sport found for id '.$id);
 		}else{
-			$view = $this->view($user, 200);
+			$view = $this->view($sport, 200);
         	return $this->handleView($view);
 		}
     } 
     
-	// [GET] /users
+	// [GET] /sports
 	// Set search parameters
-    public function getUsersAction(){
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
-		if(!$users){
+    public function getSportsAction(){
+        $sports = $this->getDoctrine()->getRepository('AppBundle:Sport')->findAll();
+		if(!$sports){
 			throw $this->createNotFoundException('No collection found');
 		}else{
-			$view = $this->view($users, 200);
+			$view = $this->view($sports, 200);
         	return $this->handleView($view);
 		}
     }
 
-	// "post_users"           
-	// [POST] /users
+	// "post_sports"           
+	// [POST] /sports
     public function postUsersAction()
     {} 
 
-	// "put_user"             
-	// [PUT] /users/{id}
+	// "put_sports"             
+	// [PUT] /sports/{id}
     public function putUserAction($slug)
     {}
 
-	// "delete_user"          
-	// [DELETE] /users/{id}
+	// "delete_sports"          
+	// [DELETE] /sports/{id}
     public function deleteUserAction($slug)
     {}
 

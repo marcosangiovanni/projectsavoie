@@ -10,6 +10,12 @@ users:
     host:     localhost
     resource: AppBundle\Controller\UsersController
 
+sports:
+    type:     rest
+    prefix:   /api/v1
+    host:     localhost
+    resource: AppBundle\Controller\SportsController
+
 facebook_friends:
     type:     rest
     host:     localhost
