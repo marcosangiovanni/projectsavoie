@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Table(name="sport")
@@ -37,6 +38,15 @@ class Sport implements Translatable
      */
     private $picture;
 
+	/**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="sports")
+     */
+    private $users;
+
+    public function __construct() {
+        $this->users = new ArrayCollection();
+    }
+	
     public function getId(){
         return $this->id;
     }

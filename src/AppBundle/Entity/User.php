@@ -59,11 +59,18 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user", cascade={"remove"})
      */	
     private $friends;
+	
+	/**
+     * @ORM\ManyToMany(targetEntity="Sport", inversedBy="users")
+     * @ORM\JoinTable(name="ass_user_sport")
+     */
+    private $sports;
 
 
     public function __construct(){
         parent::__construct();
 		$this->friends = new ArrayCollection();
+		$this->sports = new ArrayCollection();
     }
 	
 	/* Set methods */
