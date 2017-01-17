@@ -20,6 +20,16 @@ class Training
      */
     private $id;
 
+	/**
+     * @ORM\Column(type="integer", length=100)
+     */
+    private $user_id;
+
+	/**
+     * @ORM\Column(type="integer", length=100)
+     */
+    private $sport_id;
+
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=256)
@@ -165,7 +175,20 @@ class Training
         return $this->position;
     }
 	
-	
+    /**
+     * @return integer
+     */
+    public function getUserId(){
+        return $this->user_id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSportId(){
+        return $this->sport_id;
+    }
+
 	/**********************
 	 * SET METHODS        *
 	 **********************/
@@ -205,7 +228,6 @@ class Training
         $this->start = $start;
         return $this;
     }
-
 
     /**
      * @param \DateTime $end
@@ -252,6 +274,24 @@ class Training
         return $this;
     }
 
+    /**
+     * @param integer $userId
+     * @return Training
+     */
+    public function setUserId($userId){
+        $this->user_id = $userId;
+        return $this;
+    }
+
+    /**
+     * @param integer $sportId
+     * @return Training
+     */
+    public function setSportId($sportId){
+        $this->sport_id = $sportId;
+        return $this;
+    }
+
 
 	/****************************
 	 * TIMESTAMPABLE MANAGEMENT *
@@ -270,6 +310,29 @@ class Training
     public function getUpdated(){
         return $this->updated;
     }
+
+    /**
+     * @param \DateTime $created
+     * @return Training
+     */
+    public function setCreated($created){
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $updated
+     * @return Training
+     */
+    public function setUpdated($updated){
+        $this->updated = $updated;
+        return $this;
+    }
+
+
+	/***************************
+	 * RELATIONSHIP MANAGEMENT *
+	 ***************************/
 
     /**
      * @param \AppBundle\Entity\Sport $sport
@@ -302,4 +365,5 @@ class Training
     public function getUser(){
         return $this->user;
     }
+
 }

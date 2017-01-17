@@ -9,7 +9,9 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         google_maps_api_key: '%google.maps_api_key%'
-
+    form_themes:
+      - 'SonataCoreBundle:Form:datepicker.html.twig'
+        
 # app/config/config.yml
 stof_doctrine_extensions:
     default_locale: en_US
