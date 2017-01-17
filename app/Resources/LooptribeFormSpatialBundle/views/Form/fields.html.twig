@@ -1,0 +1,59 @@
+{% block point_widget %}
+    {% spaceless %}
+    <input type="hidden" id="{{ id }}" name="{{ full_name }}" value="{{ value }}" />
+    <div id="map_{{ id }}" style="height: 400px; width: 400px"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkkv5TSfWpElxl75d3OFoIuMMsc7OJudk&sensor=false"></script>
+    {% endspaceless %}<script>
+        (function() {
+            {% if value %}
+                var location = document.getElementById('{{ id }}').value.split(/ /);
+            {% else %}
+                var location = [0, 0];
+            {% endif %}
+            var map = new google.maps.Map(document.getElementById('map_{{ id }}'), {
+                center: new google.maps.LatLng(location[0], location[1]),
+                zoom: {% if value %}8{% else %}1{% endif %}
+            });
+            var marker = new google.maps.Marker({
+                {% if value %}map: map,{% endif %}
+                position: new google.maps.LatLng(location[0], location[1]),
+                draggable: true
+            });
+            var infowindow = new google.maps.InfoWindow({
+                content: ''
+            });
+            google.maps.event.addListener(map, 'dblclick', function(e) {
+                if (e.latLng && !marker.getMap()) {
+                    infowindow.close();
+                    marker.setPosition(e.latLng);
+                    marker.setMap(map);
+                    document.getElementById('{{ id }}').value = e.latLng.lat() + ' ' + e.latLng.lng();
+                }
+            });
+            google.maps.event.addListener(marker, 'dragend', function(e) {
+                infowindow.close();
+                marker.setPosition(e.latLng);
+                document.getElementById('{{ id }}').value = e.latLng.lat() + ' ' + e.latLng.lng();
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                var content = document.createElement('div');
+                var h5 = document.createElement('h5');
+                h5.innerHTML = marker.getPosition();
+                content.appendChild(h5);
+                var button = document.createElement('button');
+                button.innerHTML = {{ 'link_delete'|trans({}, 'FormAdminBundle')|json_encode|raw }};
+                content.appendChild(button);
+                content.appendChild(document.createElement('br'));
+                content.appendChild(document.createElement('br'));
+                button.onclick = function (e) {
+                    e.preventDefault();
+                    marker.setMap(null);
+                    document.getElementById('{{ id }}').value = '';
+                    infowindow.close();
+                };
+                infowindow.setContent(content);
+                infowindow.open(map, marker);
+            });
+        })();
+    </script>
+{% endblock %}
