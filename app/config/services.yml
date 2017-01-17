@@ -18,7 +18,13 @@ services:
         arguments: [~, AppBundle\Entity\FacebookFriend, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: FacebookFriend }
-            
+
+    admin.training:
+        class: AppBundle\Admin\TrainingAdmin
+        arguments: [~, AppBundle\Entity\Training, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Training }
+                        
     api_authentication_entry_point:
          class: AppBundle\Entity\Auth\ApiAuthenticationEntryPoint
          arguments: [ api ]

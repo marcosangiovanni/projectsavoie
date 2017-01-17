@@ -55,8 +55,17 @@ class Sport implements Translatable
      */
     private $users;
 
+
+	/**********************
+	 * BASE METHODS       *
+	 **********************/
     public function __construct() {
         $this->users = new ArrayCollection();
+    }
+
+	/* Recupero il nome dal modello */
+	public function __toString(){
+        return (string)$this->title;
     }
 	
 	/**********************

@@ -16,6 +16,12 @@ sports:
     host:     localhost
     resource: AppBundle\Controller\SportsController
 
+trainings:
+    type:     rest
+    prefix:   /api/v1
+    host:     localhost
+    resource: AppBundle\Controller\TrainingsController
+
 facebook_friends:
     type:     rest
     host:     localhost
