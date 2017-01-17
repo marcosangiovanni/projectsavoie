@@ -7,6 +7,14 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    google.maps_api_key: AIzaSyCkkv5TSfWpElxl75d3OFoIuMMsc7OJudk
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        google_maps_api_key: '%google.maps_api_key%'
 
 # app/config/config.yml
 stof_doctrine_extensions:
@@ -40,11 +48,6 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
-
-# Twig Configuration
-twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
 
 # Doctrine Configuration
 doctrine:
