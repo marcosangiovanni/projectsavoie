@@ -6,6 +6,7 @@ namespace AppBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -54,6 +55,18 @@ class User extends BaseUser
      * @ORM\Column(type="date", nullable=true)
      */
     private $dob;
+	
+	/**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
 
 	/**
      * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user", cascade={"remove"})
@@ -87,6 +100,7 @@ class User extends BaseUser
         $this->friendsWithMe = new ArrayCollection();
         $this->myFriends = new ArrayCollection();
     }
+	
 	
 	/**********************
 	 * SET METHODS        *
@@ -126,6 +140,7 @@ class User extends BaseUser
         return $this;
     }
 
+
 	/**********************
 	 * GET METHODS        *
 	 **********************/
@@ -156,6 +171,7 @@ class User extends BaseUser
     public function getDob(){
         return $this->dob;
     }
+
 
 	/*************************
 	 * FB FRIENDS MANAGEMENT *
@@ -189,6 +205,7 @@ class User extends BaseUser
     public function getFriends(){
         return $this->friends;
     }
+
 
 	/********************
 	 * SPORT MANAGEMENT *
@@ -285,4 +302,42 @@ class User extends BaseUser
     public function getMyFriends(){
         return $this->myFriends;
     }
+
+
+	/****************************
+	 * TIMESTAMPABLE MANAGEMENT *
+	 ****************************/
+	 
+    /**
+     * @return \DateTime 
+     */
+    public function getCreated(){
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime 
+     */
+    public function getUpdated(){
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     * @return User
+     */
+    public function setUpdated($updated){
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $created
+     * @return User
+     */
+    public function setCreated($created){
+        $this->created = $created;
+        return $this;
+    }
+
 }
