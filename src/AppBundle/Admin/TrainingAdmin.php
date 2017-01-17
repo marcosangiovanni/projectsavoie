@@ -12,9 +12,9 @@ class TrainingAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
     	
-        $formMapper	->add('title')
-					->add('picture')
-					->add('video', 'text', array('attr' => 	array('style' => 'width:200px')))
+        $formMapper	->add('title', 'text', array('attr' => 	array('style' => 'width:700px')))
+					->add('picture', 'url', array('attr' => 	array('style' => 'width:500px')))
+					->add('video', 'url', array('attr' => 	array('style' => 'width:500px')))
 					->add('start')
 					->add('end')
   					->add('cutoff')
