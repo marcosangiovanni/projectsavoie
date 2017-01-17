@@ -4,23 +4,11 @@ namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Sport;
 
 class UsersController extends FOSRestController
 {
-	/*
-	private function setHeaderForSwagger(){
-		if(in_array($this->get('kernel')->getEnvironment(), array('test', 'dev'))) {
-			header("Access-Control-Allow-Origin: *");
-		}
-	}
 
-	$clientManager = $this->get('fos_oauth_server.client_manager.default');
-	$client = $clientManager->createClient();
-	$client->setAllowedGrantTypes(array('authorization_code'));
-	$clientManager->updateClient($client);
-
-	*/
-	
 	// [GET] /users/{id}
 	public function getUserAction($id)
     {
@@ -42,8 +30,7 @@ class UsersController extends FOSRestController
     
 	// [GET] /users
 	// Set search parameters
-    public function getUsersAction()
-    {
+    public function getUsersAction(){
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
 		if(!$users){
 			throw $this->createNotFoundException('No collection found');

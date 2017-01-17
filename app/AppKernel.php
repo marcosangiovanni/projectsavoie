@@ -39,6 +39,9 @@ class AppKernel extends Kernel
             
 			//Cors manager (tipically for swagger disable in prod ENV)
 			new Nelmio\CorsBundle\NelmioCorsBundle(),
+			
+			//Doctrine plugin containing usefull extension (translatable,timestampable)
+			new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 		    
         );
 
