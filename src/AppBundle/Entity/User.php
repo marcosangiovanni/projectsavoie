@@ -73,7 +73,9 @@ class User extends BaseUser
 		$this->sports = new ArrayCollection();
     }
 	
-	/* Set methods */
+	/**********************
+	 * SET METHODS        *
+	 **********************/
     public function setName($name){
         $this->name = $name;
         return $this;
@@ -109,7 +111,9 @@ class User extends BaseUser
         return $this;
     }
 
-	/* Get methods */
+	/**********************
+	 * GET METHODS        *
+	 **********************/
     public function getName(){
         return $this->name;
     }
@@ -138,6 +142,10 @@ class User extends BaseUser
         return $this->dob;
     }
 
+	/**********************
+	 * FRIENDS MANAGEMENT *
+	 **********************/
+
     /**
      * Add friends
      *
@@ -165,5 +173,38 @@ class User extends BaseUser
      */
     public function getFriends(){
         return $this->friends;
+    }
+
+	/********************
+	 * SPORT MANAGEMENT *
+	 ********************/
+
+    /**
+     * Add sports
+     *
+     * @param \AppBundle\Entity\Sport $sports
+     * @return User
+     */
+    public function addSport(\AppBundle\Entity\Sport $sports){
+		$this->sports[] = $sports;
+        return $this;
+    }
+
+    /**
+     * Remove sports
+     *
+     * @param \AppBundle\Entity\Sport $sports
+     */
+    public function removeSport(\AppBundle\Entity\Sport $sports){
+        $this->sports->removeElement($sports);
+    }
+
+    /**
+     * Get sports
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSports(){
+        return $this->sports;
     }
 }

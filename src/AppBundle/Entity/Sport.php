@@ -47,27 +47,65 @@ class Sport implements Translatable
         $this->users = new ArrayCollection();
     }
 	
+	/**********************
+	 * GET METHODS        *
+	 **********************/
     public function getId(){
         return $this->id;
-    }
-
-    public function setPicture($picture){
-        $this->picture = $picture;
     }
 
     public function getPicture(){
         return $this->picture;
     }
 
-    public function setTitle($title){
-        $this->title = $title;
-    }
-
     public function getTitle(){
         return $this->title;
     }
 
+	/**********************
+	 * SET METHODS        *
+	 **********************/
+    public function setPicture($picture){
+        $this->picture = $picture;
+    }
+
+    public function setTitle($title){
+        $this->title = $title;
+    }
+
+	/**********************
+	 * TRANS. METHODS     *
+	 **********************/
     public function setTranslatableLocale($locale){
         $this->locale = $locale;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \AppBundle\Entity\User $users
+     * @return Sport
+     */
+    public function addUser(\AppBundle\Entity\User $users){
+        $this->users[] = $users;
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \AppBundle\Entity\User $users
+     */
+    public function removeUser(\AppBundle\Entity\User $users){
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers(){
+        return $this->users;
     }
 }
