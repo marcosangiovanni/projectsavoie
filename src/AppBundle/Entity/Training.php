@@ -78,4 +78,246 @@ class Training
      */
     private $updated;
 
+	/**
+     * @ORM\ManyToOne(targetEntity="Sport", inversedBy="trainings")
+     * @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
+     */
+    private $sport;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="trainings")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+	
+	
+	/**********************
+	 * GET METHODS        *
+	 **********************/
+
+    /**
+     * @return integer 
+     */
+    public function getId(){
+        return $this->id;
+    }
+
+    /**
+     * @return string 
+     */
+    public function getTitle(){
+        return $this->title;
+    }
+
+    /**
+     * @return \DateTime 
+     */
+    public function getEnd(){
+        return $this->end;
+    }
+
+    /**
+     * @return \DateTime 
+     */
+    public function getCutoff(){
+        return $this->cutoff;
+    }
+
+    /**
+     * @return boolean 
+     */
+    public function getIsPublic(){
+        return $this->is_public;
+    }
+
+    /**
+     * @return float 
+     */
+    public function getPrice(){
+        return $this->price;
+    }
+
+    /**
+     * @return string 
+     */
+    public function getPicture(){
+        return $this->picture;
+    }
+
+    /**
+     * @return string 
+     */
+    public function getVideo(){
+        return $this->video;
+    }
+
+    /**
+     * @return \DateTime 
+     */
+    public function getStart(){
+        return $this->start;
+    }
+
+    /**
+     * @return point 
+     */
+    public function getPosition(){
+        return $this->position;
+    }
+	
+	
+	/**********************
+	 * SET METHODS        *
+	 **********************/
+
+    /**
+     * @param string $title
+     * @return Training
+     */
+    public function setTitle($title){
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @param string $picture
+     * @return Training
+     */
+    public function setPicture($picture){
+        $this->picture = $picture;
+        return $this;
+    }
+
+    /**
+     * @param string $video
+     * @return Training
+     */
+    public function setVideo($video){
+        $this->video = $video;
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $start
+     * @return Training
+     */
+    public function setStart($start){
+        $this->start = $start;
+        return $this;
+    }
+
+
+    /**
+     * @param \DateTime $end
+     * @return Training
+     */
+    public function setEnd($end){
+        $this->end = $end;
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $cutoff
+     * @return Training
+     */
+    public function setCutoff($cutoff){
+        $this->cutoff = $cutoff;
+        return $this;
+    }
+
+    /**
+     * @param boolean $isPublic
+     * @return Training
+     */
+    public function setIsPublic($isPublic){
+        $this->is_public = $isPublic;
+        return $this;
+    }
+
+    /**
+     * @param float $price
+     * @return Training
+     */
+    public function setPrice($price){
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @param point $position
+     * @return Training
+     */
+    public function setPosition($position){
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $created
+     * @return Training
+     */
+    public function setCreated($created){
+        $this->created = $created;
+        return $this;
+    }
+
+
+	/****************************
+	 * TIMESTAMPABLE MANAGEMENT *
+	 ****************************/
+	 
+    /**
+     * @return \DateTime 
+     */
+    public function getCreated(){
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime 
+     */
+    public function getUpdated(){
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     * @return Training
+     */
+    public function setUpdated($updated){
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Sport $sport
+     * @return Training
+     */
+    public function setSport(\AppBundle\Entity\Sport $sport = null){
+        $this->sport = $sport;
+        return $this;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Sport 
+     */
+    public function getSport(){
+        return $this->sport;
+    }
+
+    /**
+     * @param \AppBundle\Entity\User $user
+     * @return Training
+     */
+    public function setUser(\AppBundle\Entity\User $user = null){
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser(){
+        return $this->user;
+    }
 }
