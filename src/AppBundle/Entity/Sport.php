@@ -32,8 +32,21 @@ class Sport implements Translatable
      */
     private $locale;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picture;
+
     public function getId(){
         return $this->id;
+    }
+
+    public function setPicture($picture){
+        $this->picture = $picture;
+    }
+
+    public function getPicture(){
+        return $this->picture;
     }
 
     public function setTitle($title){
