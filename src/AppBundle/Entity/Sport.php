@@ -39,6 +39,18 @@ class Sport implements Translatable
     private $picture;
 
 	/**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+	/**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="sports")
      */
     private $users;
@@ -108,4 +120,42 @@ class Sport implements Translatable
     public function getUsers(){
         return $this->users;
     }
+
+
+	/****************************
+	 * TIMESTAMPABLE MANAGEMENT *
+	 ****************************/
+	 
+    /**
+     * @return \DateTime 
+     */
+    public function getCreated(){
+        return $this->created;
+    }
+
+    /**
+     * @return \DateTime 
+     */
+    public function getUpdated(){
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $created
+     * @return Sport
+     */
+    public function setCreated($created){
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $updated
+     * @return Sport
+     */
+    public function setUpdated($updated){
+        $this->updated = $updated;
+        return $this;
+    }
+
 }
