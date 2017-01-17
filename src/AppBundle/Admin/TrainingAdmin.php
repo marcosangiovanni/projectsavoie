@@ -11,15 +11,22 @@ class TrainingAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
+    	
         $formMapper	->add('title')
 					->add('picture')
-					->add('video')
+					->add('video', 'text', array('attr' => 	array('style' => 'width:200px')))
 					->add('start')
 					->add('end')
   					->add('cutoff')
  					->add('is_public')
  					->add('price')
- 					//->add('position','point')
+ 					->add('position','point', array(
+							//'multiple' 	=> 	true,
+            				//'class' 	=> 	'AppBundle\Entity\FacebookFriend',
+            				//'property' 	=> 	'name',
+            				'attr' 		=> 	array('style' => 'width:200px')
+        				)
+					)
  /*
 					->add('friends', 'entity', array(
 							'multiple' 	=> 	true,

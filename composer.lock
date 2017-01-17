@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e8c4dfc0c19d1e64e72859d8b5ee7ab",
+    "content-hash": "c409cb830c50578cca275afa2942eef0",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -112,16 +112,16 @@
         },
         {
             "name": "creof/doctrine2-spatial",
-            "version": "1.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/creof/doctrine2-spatial.git",
-                "reference": "7f87fc36954ad52e3bee9ddb62e7b3c637a39710"
+                "reference": "7211e90ddbfdaa7df6bbf61228d62c675cd7d505"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/creof/doctrine2-spatial/zipball/7f87fc36954ad52e3bee9ddb62e7b3c637a39710",
-                "reference": "7f87fc36954ad52e3bee9ddb62e7b3c637a39710",
+                "url": "https://api.github.com/repos/creof/doctrine2-spatial/zipball/7211e90ddbfdaa7df6bbf61228d62c675cd7d505",
+                "reference": "7211e90ddbfdaa7df6bbf61228d62c675cd7d505",
                 "shasum": ""
             },
             "require": {
@@ -165,7 +165,7 @@
                 "postgresql",
                 "spatial"
             ],
-            "time": "2016-02-18T14:21:13+00:00"
+            "time": "2017-01-10 17:13:16"
         },
         {
             "name": "creof/geo-parser",
@@ -1896,6 +1896,54 @@
                 "menu"
             ],
             "time": "2016-09-22T12:24:40+00:00"
+        },
+        {
+            "name": "looptribe/form-spatial",
+            "version": "dev-master",
+            "target-dir": "Looptribe/FormSpatialBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/looptribe/form-spatial.git",
+                "reference": "3059e777142792714973096d101a1707e8987ceb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/looptribe/form-spatial/zipball/3059e777142792714973096d101a1707e8987ceb",
+                "reference": "3059e777142792714973096d101a1707e8987ceb",
+                "shasum": ""
+            },
+            "require": {
+                "creof/doctrine2-spatial": "dev-master",
+                "symfony/form": "~2.2",
+                "twig/twig": "~1.12"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Looptribe\\FormSpatialBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Looptribe",
+                    "email": "info@looptribe.com",
+                    "homepage": "http://www.looptribe.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Spatial support for Symfony2 forms with Google Maps",
+            "homepage": "http://github.com/looptribe/form-spatial",
+            "keywords": [
+                "admin",
+                "form",
+                "gmaps",
+                "spatial"
+            ],
+            "time": "2015-10-22 08:08:50"
         },
         {
             "name": "monolog/monolog",
@@ -4005,7 +4053,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "creof/doctrine2-spatial": 20,
+        "looptribe/form-spatial": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

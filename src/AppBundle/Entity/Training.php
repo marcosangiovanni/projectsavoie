@@ -252,15 +252,6 @@ class Training
         return $this;
     }
 
-    /**
-     * @param \DateTime $created
-     * @return Training
-     */
-    public function setCreated($created){
-        $this->created = $created;
-        return $this;
-    }
-
 
 	/****************************
 	 * TIMESTAMPABLE MANAGEMENT *
@@ -278,15 +269,6 @@ class Training
      */
     public function getUpdated(){
         return $this->updated;
-    }
-
-    /**
-     * @param \DateTime $updated
-     * @return Training
-     */
-    public function setUpdated($updated){
-        $this->updated = $updated;
-        return $this;
     }
 
     /**

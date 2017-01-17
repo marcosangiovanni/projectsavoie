@@ -42,6 +42,9 @@ class AppKernel extends Kernel
 			
 			//Doctrine plugin containing usefull extension (translatable,timestampable)
 			new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+			
+			//Gestione dei form con dati spazioni per inserimento con gmaps
+			new Looptribe\FormSpatialBundle\LooptribeFormSpatialBundle(),
 		    
         );
 
