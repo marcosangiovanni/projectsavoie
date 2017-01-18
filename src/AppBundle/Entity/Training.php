@@ -99,7 +99,12 @@ class Training
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
-	
+
+	/**
+     * @ORM\OneToMany(targetEntity="Invite", mappedBy="training", cascade={"remove"})
+     */	
+    private $invited;
+		
 	
 	/**********************
 	 * GET METHODS        *
@@ -366,4 +371,45 @@ class Training
         return $this->user;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->invited = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add invited
+     *
+     * @param \AppBundle\Entity\Invite $invited
+     *
+     * @return Training
+     */
+    public function addInvited(\AppBundle\Entity\Invite $invited)
+    {
+        $this->invited[] = $invited;
+
+        return $this;
+    }
+
+    /**
+     * Remove invited
+     *
+     * @param \AppBundle\Entity\Invite $invited
+     */
+    public function removeInvited(\AppBundle\Entity\Invite $invited)
+    {
+        $this->invited->removeElement($invited);
+    }
+
+    /**
+     * Get invited
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvited()
+    {
+        return $this->invited;
+    }
 }

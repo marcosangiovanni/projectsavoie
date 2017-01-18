@@ -93,6 +93,12 @@ class User extends BaseUser
      */
     private $myFriends;
 
+	/**
+     * @ORM\OneToMany(targetEntity="Invite", mappedBy="user", cascade={"remove"})
+     */	
+    private $invited;
+
+
     public function __construct(){
         parent::__construct();
 		$this->friends = new ArrayCollection();
@@ -340,4 +346,31 @@ class User extends BaseUser
         return $this;
     }
 
+
+	/***************************
+	 * RELATIONSHIP MANAGEMENT *
+	 ***************************/
+	 
+    /**
+     * @param \AppBundle\Entity\Invite $invited
+     * @return User
+     */
+    public function addInvited(\AppBundle\Entity\Invite $invited){
+        $this->invited[] = $invited;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Invite $invited
+     */
+    public function removeInvited(\AppBundle\Entity\Invite $invited){
+        $this->invited->removeElement($invited);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvited(){
+        return $this->invited;
+    }
 }
