@@ -6,38 +6,29 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use AppBundle\Util\Utility as Utility;
 
 class TrainingAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper){
-        $formMapper	->add('title', 'text', array('attr' => array('style' => 'width:700px')))
-					->add('user', null, array('attr' => array('style' => 'width:500px')))
-					->add('sport', null, array('attr' => array('style' => 'width:500px')))
-					->add('picture', 'url', array('attr' => array('style' => 'width:500px')))
-					->add('video', 'url', array('attr' => array('style' => 'width:500px')))
-					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => 'yyyy-MM-dd HH:mm:ss'))
-					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => 'yyyy-MM-dd HH:mm:ss'))
-  					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => 'yyyy-MM-dd HH:mm:ss'))
+        $formMapper	->add('title', 'text', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
+					->add('user', null, array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
+					->add('sport', null, array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
+					->add('picture', 'url', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
+					->add('video', 'url', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
+					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
+					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => Utility::DATE_FORMAT_DATETIME))
+  					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => Utility::DATE_FORMAT_DATETIME))
  					->add('is_public')
  					->add('price')
  					->add('position','point')
 		;
     }
 	
-	
-	public function filterByName($queryBuilder, $alias, $field, $value){
-		if(!$value['value']){
-			return;
-		}
-		$queryBuilder->andWhere($alias . '.name' . ' = ' . ':name' )
-					->setParameter('name' , $value['value']->getName());
-		return true;
-	}
-
     protected function configureDatagridFilters(DatagridMapper $datagridMapper){
         $datagridMapper	->add('title')
 						->add('user','doctrine_orm_callback', array(
-	            												'callback' => array($this, 'filterByName'),
+	            												'callback' => array('AppBundle\Util\Utility', 'filterByName'),
 	            												'field_type' => 'text',
              												  ), 
              												  'entity',array(
@@ -46,9 +37,9 @@ class TrainingAdmin extends Admin
 															  )
 						)
 						->add('sport')
-						->add('start', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => 'yyyy-MM-dd'))
-						->add('end', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => 'yyyy-MM-dd'))
-	  					->add('cutoff', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => 'yyyy-MM-dd'))
+						->add('start', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => Utility::DATE_FORMAT_DATE))
+						->add('end', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => Utility::DATE_FORMAT_DATE))
+	  					->add('cutoff', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => Utility::DATE_FORMAT_DATE))
 	 					->add('is_public')
 	 					->add('price')
 		;
@@ -60,13 +51,13 @@ class TrainingAdmin extends Admin
 					->addIdentifier('user', 'entity', array(
             				'class' 	=> 	'AppBundle\Entity\User',
             				'property' 	=> 	'name',
-            				'attr' 		=> 	array('style' => 'width:200px')
+            				'attr' 		=> 	array('style' => Utility::FIELD_STYLE_SMALL)
         				)
 					)
 					->addIdentifier('sport', 'entity', array(
             				'class' 	=> 	'AppBundle\Entity\Sport',
             				'property' 	=> 	'name',
-            				'attr' 		=> 	array('style' => 'width:200px')
+            				'attr' 		=> 	array('style' => Utility::FIELD_STYLE_SMALL)
         				)
 					)
 					->addIdentifier('start')
