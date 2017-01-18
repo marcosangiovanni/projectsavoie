@@ -55,7 +55,12 @@ class Sport implements Translatable
      */
     private $users;
 
-
+	/**
+     * Variable to store trainings
+	 * @ORM\OneToMany(targetEntity="Training", mappedBy="sport", cascade={"remove"})
+     */	
+    private $trainings;
+    
 	/**********************
 	 * BASE METHODS       *
 	 **********************/

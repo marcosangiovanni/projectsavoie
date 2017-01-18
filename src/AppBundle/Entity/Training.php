@@ -374,42 +374,30 @@ class Training
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct(){
         $this->invited = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add invited
-     *
      * @param \AppBundle\Entity\Invite $invited
-     *
      * @return Training
      */
-    public function addInvited(\AppBundle\Entity\Invite $invited)
-    {
+    public function addInvited(\AppBundle\Entity\Invite $invited){
         $this->invited[] = $invited;
-
         return $this;
     }
 
     /**
-     * Remove invited
-     *
      * @param \AppBundle\Entity\Invite $invited
      */
-    public function removeInvited(\AppBundle\Entity\Invite $invited)
-    {
+    public function removeInvited(\AppBundle\Entity\Invite $invited){
         $this->invited->removeElement($invited);
     }
 
     /**
-     * Get invited
-     *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getInvited()
-    {
+    public function getInvited(){
         return $this->invited;
     }
 }

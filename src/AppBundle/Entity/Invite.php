@@ -201,26 +201,18 @@ class Invite
 	
 
     /**
-     * Set training
-     *
      * @param \AppBundle\Entity\Training $training
-     *
      * @return Invite
      */
-    public function setTraining(\AppBundle\Entity\Training $training = null)
-    {
+    public function setTraining(\AppBundle\Entity\Training $training = null){
         $this->training = $training;
-
         return $this;
     }
 
     /**
-     * Get training
-     *
      * @return \AppBundle\Entity\Training
      */
-    public function getTraining()
-    {
+    public function getTraining(){
         return $this->training;
     }
 }

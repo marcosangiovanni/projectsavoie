@@ -98,7 +98,12 @@ class User extends BaseUser
      */	
     private $invited;
 
-
+	/**
+     * Variable to store trainings
+	 * @ORM\OneToMany(targetEntity="Training", mappedBy="user", cascade={"remove"})
+     */	
+    private $trainings;
+    
     public function __construct(){
         parent::__construct();
 		$this->friends = new ArrayCollection();
@@ -107,7 +112,7 @@ class User extends BaseUser
         $this->myFriends = new ArrayCollection();
     }
 	
-	
+
 	/**********************
 	 * SET METHODS        *
 	 **********************/
@@ -372,5 +377,29 @@ class User extends BaseUser
      */
     public function getInvited(){
         return $this->invited;
+    }
+
+
+    /**
+     * @param \AppBundle\Entity\Training $training
+     * @return User
+     */
+    public function addTraining(\AppBundle\Entity\Training $training){
+        $this->trainings[] = $training;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Training $training
+     */
+    public function removeTraining(\AppBundle\Entity\Training $training){
+        $this->trainings->removeElement($training);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTrainings(){
+        return $this->trainings;
     }
 }
