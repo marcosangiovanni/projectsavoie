@@ -17,8 +17,8 @@ class TrainingAdmin extends Admin
 					->add('picture', 'url', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
 					->add('video', 'url', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
 					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
-					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => Utility::DATE_FORMAT_DATETIME))
-  					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => Utility::DATE_FORMAT_DATETIME))
+					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
+  					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
  					->add('is_public')
  					->add('price')
  					->add('position','point')
@@ -51,13 +51,11 @@ class TrainingAdmin extends Admin
 					->addIdentifier('user', 'entity', array(
             				'class' 	=> 	'AppBundle\Entity\User',
             				'property' 	=> 	'name',
-            				'attr' 		=> 	array('style' => Utility::FIELD_STYLE_SMALL)
         				)
 					)
 					->addIdentifier('sport', 'entity', array(
             				'class' 	=> 	'AppBundle\Entity\Sport',
             				'property' 	=> 	'name',
-            				'attr' 		=> 	array('style' => Utility::FIELD_STYLE_SMALL)
         				)
 					)
 					->addIdentifier('start')
