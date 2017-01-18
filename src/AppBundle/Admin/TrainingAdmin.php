@@ -15,22 +15,40 @@ class TrainingAdmin extends Admin
 					->add('sport', null, array('attr' => array('style' => 'width:500px')))
 					->add('picture', 'url', array('attr' => array('style' => 'width:500px')))
 					->add('video', 'url', array('attr' => array('style' => 'width:500px')))
-					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px')))
-					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px')))
-  					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px')))
+					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => 'yyyy-MM-dd HH:mm:ss'))
+					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => 'yyyy-MM-dd HH:mm:ss'))
+  					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => 'width:250px'),'format' => 'yyyy-MM-dd HH:mm:ss'))
  					->add('is_public')
  					->add('price')
  					->add('position','point')
 		;
     }
+	
+	
+	public function filterByName($queryBuilder, $alias, $field, $value){
+		if(!$value['value']){
+			return;
+		}
+		$queryBuilder->andWhere($alias . '.name' . ' = ' . ':name' )
+					->setParameter('name' , $value['value']->getName());
+		return true;
+	}
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper){
         $datagridMapper	->add('title')
-						->add('user')
+						->add('user','doctrine_orm_callback', array(
+	            												'callback' => array($this, 'filterByName'),
+	            												'field_type' => 'text',
+             												  ), 
+             												  'entity',array(
+														                'class' => 'AppBundle\Entity\User',
+														                'choice_label' => 'surname'
+															  )
+						)
 						->add('sport')
-						->add('start')
-						->add('end')
-	  					->add('cutoff')
+						->add('start', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => 'yyyy-MM-dd'))
+						->add('end', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => 'yyyy-MM-dd'))
+	  					->add('cutoff', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => 'yyyy-MM-dd'))
 	 					->add('is_public')
 	 					->add('price')
 		;

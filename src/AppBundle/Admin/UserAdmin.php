@@ -16,15 +16,8 @@ class UserAdmin extends Admin
 					->add('surname')
 					->add('username')
 					->add('email')
-/*
-					->add('friends', 'entity', array(
-							'multiple' 	=> 	true,
-            				'class' 	=> 	'AppBundle\Entity\FacebookFriend',
-            				'property' 	=> 	'name',
-            				'attr' 		=> 	array('style' => 'width:200px')
-        				)
-					)
-*/
+					->add('enabled')
+					->add('password','password')
 		;
     }
 
