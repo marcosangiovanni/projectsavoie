@@ -4,6 +4,9 @@ namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use \DateTime;
+
 class UsersController extends FOSRestController
 {
 
@@ -40,8 +43,51 @@ class UsersController extends FOSRestController
 
 	// "post_users"           
 	// [POST] /users
-    public function postUsersAction()
-    {} 
+	// New user insert
+    public function postUsersAction(){
+    	try{
+    		//Get user manager
+	    	$userManager = $this->container->get('fos_user.user_manager');
+
+			//Creation of new user object
+    		$user = $userManager->createUser();
+			
+			//Find request parameters
+			$request = $this->getRequest();
+			
+			//User parameters for registration
+			$data = $request->get('data');
+			
+			//A new user is alway created enabled
+			$user->setEnabled(true);
+			
+			//Data passed in body
+			$user->setName($data['name']);
+			$user->setSurname($data['surname']);
+			$user->setEmail($data['email']);
+			$user->setPhone($data['phone']);
+			$user->setDob(new DateTime($data['dob']));
+			$user->setUsername($data['user']);
+			$user->setPlainPassword($data['password']);
+			
+			//Save new user
+			$userManager->updateUser($user);
+			
+			//Return user
+			$view = $this->view($user, 200);
+        	return $this->handleView($view);
+
+    	}
+    	//User and password already in use
+    	catch(UniqueConstraintViolationException $e){
+			throw new \Exception('user or email already in use');
+    	}
+		//This catch any other exception
+		catch(\Exception $e){
+			throw new \Exception('Something went wrong!');
+    	}
+
+    } 
 
 	// "put_user"             
 	// [PUT] /users/{id}
