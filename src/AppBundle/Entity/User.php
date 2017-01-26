@@ -7,6 +7,8 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity
@@ -18,42 +20,50 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Groups({"detail"})
      */
     protected $id;
 
 	/**
      * @ORM\Column(type="string", length=100, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $name;
 
 	/**
      * @ORM\Column(type="string", length=100, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $surname;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $video;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $city;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $dob;
 	
 	/**
@@ -70,18 +80,20 @@ class User extends BaseUser
 
 	/**
      * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user", cascade={"remove"})
-     */	
+	 * @Groups({"detail"})
+	 */
     private $friends;
 	
 	/**
      * @ORM\ManyToMany(targetEntity="Sport", inversedBy="users")
      * @ORM\JoinTable(name="ass_user_sport")
+	 * @Groups({"detail"})
      */
     private $sports;
 	
 	/**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="myFriends")
-     */
+	 */
     private $friendsWithMe;
 
     /**
@@ -90,18 +102,21 @@ class User extends BaseUser
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
      *      )
+	 * @Groups({"detail"})
+     * @MaxDepth(2)
      */
     private $myFriends;
 
 	/**
      * @ORM\OneToMany(targetEntity="Invite", mappedBy="user", cascade={"remove"})
-     */	
+	 */
     private $invited;
 
 	/**
      * Variable to store trainings
 	 * @ORM\OneToMany(targetEntity="Training", mappedBy="user", cascade={"remove"})
-     */	
+	 * @Groups({"detail"})
+	 */
     private $trainings;
     
     public function __construct(){

@@ -6,26 +6,45 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use \DateTime;
+use \Exception;
+
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerBuilder;
+use FOS\RestBundle\Controller\Annotations\View;
+
+use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends FOSRestController
 {
 
 	// [GET] /users/{id}
-	public function getUserAction($id)
-    {
-    	//Find USER By Token
-    	$logged_user = $this->get('security.context')->getToken()->getUser();
-		
-		//Check is granted
-		$is_granted = $this->get('security.context')->isGranted('ROLE_USER');
-		
+	public function getUserAction($id){
 		//Find user data
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+
+
+			$view = $this->view($user, 200);
+        	//return $this->handleView($view);
+
+
+
+
 		if(!$user){
 			throw $this->createNotFoundException('No product found for id '.$id);
 		}else{
-			$view = $this->view($user, 200);
-        	return $this->handleView($view);
+			
+			$context = SerializationContext::create()
+							->setGroups(array('detail'))
+							->enableMaxDepthChecks();
+			
+			$serializer = SerializerBuilder::create()->build();
+			
+			$jsonContent = $serializer->serialize($user, 'json', $context);
+			
+			$jsonResponse = new Response($jsonContent);
+    		return $jsonResponse->setStatusCode(200);
+
 		}
     } 
     
@@ -83,20 +102,34 @@ class UsersController extends FOSRestController
 			throw new \Exception('user or email already in use');
     	}
 		//This catch any other exception
-		catch(\Exception $e){
-			throw new \Exception('Something went wrong!');
+		catch(Exception $e){
+			throw new Exception('Something went wrong!');
     	}
 
     } 
 
 	// "put_user"             
 	// [PUT] /users/{id}
-    public function putUserAction($slug)
-    {}
+	// User update
+    public function putUserAction($id){
+
+    	//Find USER By Token
+    	$logged_user = $this->get('security.context')->getToken()->getUser();
+		
+		if($logged_user->getId() != $id){
+			throw new Exception('You cant modify this user');
+		}
+		
+		
+		
+		var_dump($logged_user->getId());
+		exit;
+    	
+    }
 
 	// "delete_user"          
 	// [DELETE] /users/{id}
-    public function deleteUserAction($slug)
+    public function deleteUserAction($id)
     {}
 
 }

@@ -5,6 +5,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Accessor;
 
 /**
  * @ORM\Table(name="training")
@@ -17,7 +19,8 @@ class Training
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     */
+	 * @Groups({"detail"})
+	 */
     private $id;
 
 	/**
@@ -33,47 +36,56 @@ class Training
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=256)
-     */
+	 * @Groups({"detail"})
+	 */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $video;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $start;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     */
+	 * @Groups({"detail"})
+	 */
     private $end;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     */
+	 */
     private $cutoff;
 
     /**
      * @ORM\Column(type="boolean", nullable=false, options={"default" : true})
-     */
+	 * @Groups({"detail"})
+	 */
     private $is_public;
 
     /**
      * @ORM\Column(type="float", nullable=false, options={"default" : 0})
-     */
+	 * @Groups({"detail"})
+	 */
     private $price;
 	
     /**
 	 * @ORM\Column(type="point")
-     */
+	 * @Groups({"detail"})
+	 * @Accessor(getter="getPositionApi",setter="setPositionApi")
+	 */
     private $position;
 
 	/**
@@ -97,7 +109,8 @@ class Training
 	/**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="trainings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+	 * @Groups({"detail"})
+	 */
     private $user;
 
 	/**
@@ -178,6 +191,15 @@ class Training
      */
     public function getPosition(){
         return $this->position;
+    }
+	
+    /**
+     * @return array
+	 * This metod is created to handle the serialization of datatype POINT 
+     */
+    public function getPositionApi(){
+        $position = $this->position;
+		return array('x' => $position->getX(), 'y' => $position->getY());
     }
 	
     /**
