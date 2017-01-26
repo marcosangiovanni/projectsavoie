@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Table(name="training")
@@ -68,12 +69,12 @@ class Training
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+	 * @Groups({"detail"})
 	 */
     private $cutoff;
 
     /**
      * @ORM\Column(type="boolean", nullable=false, options={"default" : true})
-	 * @Groups({"detail"})
 	 */
     private $is_public;
 
@@ -105,6 +106,7 @@ class Training
 	/**
      * @ORM\ManyToOne(targetEntity="Sport", inversedBy="trainings")
      * @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
+	 * @Groups({"detail"})
      */
     private $sport;
 	
@@ -113,6 +115,7 @@ class Training
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 * @MaxDepth(2)
 	 * @Groups({"detail"})
+	 * @SerializedName("creator")
 	 */
     private $user;
 
