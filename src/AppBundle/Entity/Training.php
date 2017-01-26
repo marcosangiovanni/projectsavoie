@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Table(name="training")
@@ -110,6 +111,7 @@ class Training
 	/**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="trainings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+	 * @MaxDepth(2)
 	 * @Groups({"detail"})
 	 */
     private $user;
@@ -121,6 +123,8 @@ class Training
 		
 	/**
      * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="training", cascade={"remove"})
+	 * @MaxDepth(3)
+	 * @Groups({"detail"})
      */	
     private $subscribed;
 		

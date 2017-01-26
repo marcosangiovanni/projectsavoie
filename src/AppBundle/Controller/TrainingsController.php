@@ -6,26 +6,37 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Sport;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerBuilder;
+
+use Symfony\Component\HttpFoundation\Response;
+
 class TrainingsController extends FOSRestController
 {
 
 	// [GET] /trainings/{id}
 	public function getTrainingAction($id)
     {
-    	//Find USER By Token
-    	$logged_user = $this->get('security.context')->getToken()->getUser();
-		
-		//Check is granted
-		$is_granted = $this->get('security.context')->isGranted('ROLE_USER');
-		
 		//Find training data
 		$training = $this->getDoctrine()->getRepository('AppBundle:Training')->find($id);
+
 		if(!$training){
 			throw $this->createNotFoundException('No training found for id '.$id);
 		}else{
-			$view = $this->view($training, 200);
-        	return $this->handleView($view);
+			
+			$context = SerializationContext::create()
+							->setGroups(array('detail'))
+							->enableMaxDepthChecks();
+			
+			$serializer = SerializerBuilder::create()->build();
+			
+			$jsonContent = $serializer->serialize($training, 'json', $context);
+			
+			$jsonResponse = new Response($jsonContent);
+    		return $jsonResponse->setStatusCode(200);
+
 		}
+
     } 
     
 	// [GET] /trainings

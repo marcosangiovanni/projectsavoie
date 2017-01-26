@@ -53,7 +53,8 @@ class Subscribed
 	/** 
      * @ORM\ManyToOne(targetEntity="User", inversedBy="subscribed") 
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */ 
+	 * @Groups({"detail"})
+	 */ 
     private $user;
 
     /** 
