@@ -117,6 +117,11 @@ class User extends BaseUser
     private $invited;
 
 	/**
+     * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="user", cascade={"remove"})
+	 */
+    private $subscribed;
+
+	/**
      * Variable to store trainings
 	 * @ORM\OneToMany(targetEntity="Training", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("created_trainings")
@@ -130,6 +135,8 @@ class User extends BaseUser
 		$this->sports = new ArrayCollection();
         $this->friendsWithMe = new ArrayCollection();
         $this->myFriends = new ArrayCollection();
+        $this->invited = new ArrayCollection();
+        $this->subcribed = new ArrayCollection();
     }
 	
 
@@ -399,7 +406,29 @@ class User extends BaseUser
         return $this->invited;
     }
 
+    /**
+     * @param \AppBundle\Entity\Subscribed $subscribed
+     * @return User
+     */
+    public function addSubscribed(\AppBundle\Entity\Subscribed $subscribed){
+        $this->subscribed[] = $subscribed;
+        return $this;
+    }
 
+    /**
+     * @param \AppBundle\Entity\Subscribed $subscribed
+     */
+    public function removeSubscribed(\AppBundle\Entity\Subscribed $subscribed){
+        $this->subscribed->removeElement($subscribed);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubscribed(){
+        return $this->subscribed;
+    }
+	
     /**
      * @param \AppBundle\Entity\Training $training
      * @return User

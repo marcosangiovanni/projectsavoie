@@ -118,6 +118,11 @@ class Training
      */	
     private $invited;
 		
+	/**
+     * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="training", cascade={"remove"})
+     */	
+    private $subscribed;
+		
 	
 	/**********************
 	 * GET METHODS        *
@@ -398,6 +403,7 @@ class Training
      */
     public function __construct(){
         $this->invited = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subscribed = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -421,5 +427,29 @@ class Training
      */
     public function getInvited(){
         return $this->invited;
+    }
+
+
+    /**
+     * @param \AppBundle\Entity\Subscribed $subscribed
+     * @return Training
+     */
+    public function addSubscribed(\AppBundle\Entity\Subscribed $subscribed){
+        $this->subscribed[] = $subscribed;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Subscribed $subscribed
+     */
+    public function removeSubscribed(\AppBundle\Entity\Subscribed $subscribed){
+        $this->subscribed->removeElement($subscribed);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubscribed(){
+        return $this->subscribed;
     }
 }
