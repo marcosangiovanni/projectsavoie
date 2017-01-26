@@ -10,7 +10,6 @@ use \Exception;
 
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
-use FOS\RestBundle\Controller\Annotations\View;
 
 use Symfony\Component\HttpFoundation\Response;
 
