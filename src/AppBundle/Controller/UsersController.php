@@ -22,14 +22,6 @@ class UsersController extends FOSRestController
 		//Find user data
 		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
-
-
-			$view = $this->view($user, 200);
-        	//return $this->handleView($view);
-
-
-
-
 		if(!$user){
 			throw $this->createNotFoundException('No product found for id '.$id);
 		}else{
@@ -52,11 +44,22 @@ class UsersController extends FOSRestController
 	// Set search parameters
     public function getUsersAction(){
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+		
 		if(!$users){
 			throw $this->createNotFoundException('No collection found');
 		}else{
-			$view = $this->view($users, 200);
-        	return $this->handleView($view);
+				
+			$context = SerializationContext::create()
+							->setGroups(array('detail'))
+							->enableMaxDepthChecks();
+			
+			$serializer = SerializerBuilder::create()->build();
+			
+			$jsonContent = $serializer->serialize($users, 'json', $context);
+			
+			$jsonResponse = new Response($jsonContent);
+    		return $jsonResponse->setStatusCode(200);
+			
 		}
     }
 
