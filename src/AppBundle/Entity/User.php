@@ -7,8 +7,10 @@ use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity
@@ -80,6 +82,7 @@ class User extends BaseUser
 
 	/**
      * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user", cascade={"remove"})
+	 * @SerializedName("facebook_friends")
 	 * @Groups({"detail"})
 	 */
     private $friends;
@@ -104,6 +107,7 @@ class User extends BaseUser
      *      )
 	 * @Groups({"detail"})
      * @MaxDepth(2)
+	 * @SerializedName("friends")
      */
     private $myFriends;
 
@@ -115,6 +119,7 @@ class User extends BaseUser
 	/**
      * Variable to store trainings
 	 * @ORM\OneToMany(targetEntity="Training", mappedBy="user", cascade={"remove"})
+	 * @SerializedName("created_trainings")
 	 * @Groups({"detail"})
 	 */
     private $trainings;
