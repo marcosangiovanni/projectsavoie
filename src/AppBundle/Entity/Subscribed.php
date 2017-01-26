@@ -5,6 +5,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use JMS\Serializer\Annotation\Accessor;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
+
 /**
  * @ORM\Table(name="ass_user_training_subscribed")
  * @ORM\Entity
@@ -30,7 +34,8 @@ class Subscribed
 
 	/**
      * @ORM\Column(type="float")
-     */
+	 * @Groups({"detail"})
+	 */ 
     private $feedback;
 
 	/**
@@ -54,9 +59,10 @@ class Subscribed
     /** 
      * @ORM\ManyToOne(targetEntity="Training", inversedBy="subscribed") 
 	 * @ORM\JoinColumn(name="training_id", referencedColumnName="id")
+	 * @Groups({"detail"})
 	 */ 
     private $training; 
-	
+
 	public function __construct(User $user, Training $training, $feedback = null) { 
         $this->user = $user; 
         $this->training = $training; 

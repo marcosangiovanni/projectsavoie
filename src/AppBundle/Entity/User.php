@@ -117,7 +117,10 @@ class User extends BaseUser
     private $invited;
 
 	/**
+     * Variable to store trainings to whom the user is subscribed
      * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="user", cascade={"remove"})
+	 * @SerializedName("associated_trainings")
+	 * @Groups({"detail"})
 	 */
     private $subscribed;
 
