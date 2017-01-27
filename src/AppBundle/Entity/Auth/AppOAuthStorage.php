@@ -146,6 +146,7 @@ class AppOAuthStorage extends OAuthStorage {
 		$user = new User();
 		$user->setUsername($this->socialDetails['id']);
 		$user->setPassword($this->socialDetails['id']);
+		$user->setEnabled(true);
 		
 		if (array_key_exists('email', $this->socialDetails))
 			$user->setEmail($this->socialDetails['email']);
