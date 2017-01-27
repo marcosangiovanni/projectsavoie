@@ -21,6 +21,7 @@ hwi_oauth:
     firewall_names: [main]
     connect:
         account_connector: app.provider.oauth
+        confirmation: false
     resource_owners:
         facebook:
             type:                facebook

@@ -30,21 +30,18 @@ security:
             anonymous: false                           # Anonymous access is not allowed
             entry_point: api_authentication_entry_point
         main:
-
+            pattern: ^/
             oauth:
                 failure_path: /login
                 login_path: /login
                 check_path: /connect_check
                 provider: fos_userbundle
                 resource_owners:
-                    facebook: "/login/check-facebook"
-                    google: "/login/check-google"
+                    facebook: "/fblogin/check-facebook"
+                    google: "/fblogin/check-google"
                 oauth_user_provider:
                     service: app.provider.oauth
 
-
-
-            pattern: ^/
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager
@@ -56,3 +53,4 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/login/check-facebook, roles: IS_AUTHENTICATED_ANONYMOUSLY }
