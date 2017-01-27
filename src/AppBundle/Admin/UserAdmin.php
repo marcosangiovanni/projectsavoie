@@ -11,6 +11,24 @@ use Sonata\AdminBundle\Form\FormMapper;
 class UserAdmin extends Admin
 {
 
+	//Methods to manage password update
+	public function updateUser(\AppBundle\Entity\User $u) {
+	    $um = $this->getConfigurationPool()->getContainer()->get('fos_user.user_manager');
+	    $um->updateUser($u, false);
+	}
+
+	public function prePersist($object){
+        parent::prePersist($object);
+		$this->updateUser($object);
+
+    }
+	
+    public function preUpdate($object){
+        parent::preUpdate($object);
+		$this->updateUser($object);
+
+    }
+	
 	//Form fields
     protected function configureFormFields(FormMapper $formMapper){
         $formMapper	->add('name')
@@ -24,6 +42,7 @@ class UserAdmin extends Admin
 		                'first_options' => array('label' => 'form.password'),
 		                'second_options' => array('label' => 'form.password_confirmation'),
 		                'invalid_message' => 'fos_user.password.mismatch',
+		                'required' => false,
         ));
     }
 
