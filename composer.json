@@ -32,7 +32,8 @@
         "creof/doctrine2-spatial": "dev-master",
         "looptribe/form-spatial": "dev-master",
         "hwi/oauth-bundle": "^0.5.3",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "facebook/graph-sdk": "^5.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
