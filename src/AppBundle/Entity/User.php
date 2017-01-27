@@ -26,6 +26,13 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", nullable=true)
+     */
+    private $facebookID;
+	
 	/**
      * @ORM\Column(type="string", length=100, nullable=true)
 	 * @Groups({"detail"})
@@ -151,6 +158,11 @@ class User extends BaseUser
         return $this;
     }
 	
+    public function setfacebookID($facebookID){
+        $this->facebookID = $facebookID;
+        return $this;
+    }
+	
     public function setSurname($surname){
         $this->surname = $surname;
         return $this;
@@ -189,6 +201,10 @@ class User extends BaseUser
         return $this->name;
     }
 
+    public function getfacebookID(){
+        return $this->facebookID;
+    }
+	
     public function getSurname(){
         return $this->surname;
     }

@@ -30,7 +30,9 @@
         "nelmio/cors-bundle": "^1.5",
         "stof/doctrine-extensions-bundle": "^1.2",
         "creof/doctrine2-spatial": "dev-master",
-        "looptribe/form-spatial": "dev-master"
+        "looptribe/form-spatial": "dev-master",
+        "hwi/oauth-bundle": "^0.5.3",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
