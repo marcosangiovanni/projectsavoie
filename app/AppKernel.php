@@ -47,6 +47,9 @@ class AppKernel extends Kernel
 			
 			//Gestione dei form con dati spazioni per inserimento con gmaps
 			new Looptribe\FormSpatialBundle\LooptribeFormSpatialBundle(),
+			
+			//Per FB Login
+			new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
 		    
         );
 

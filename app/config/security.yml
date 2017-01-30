@@ -15,6 +15,7 @@ security:
             id: fos_user.user_provider.username        # fos_user.user_provider.username_email does not seem to work (OAuth-spec related ("username + password") ?)
 
     firewalls:
+                    
         oauth_token:                                   # Everyone can access the access token URL.
             pattern: ^/api/v1/oauth/v2/token
             security: false
@@ -30,6 +31,17 @@ security:
             entry_point: api_authentication_entry_point
         main:
             pattern: ^/
+            oauth:
+                failure_path: /login
+                login_path: /login
+                check_path: /connect_check
+                provider: fos_userbundle
+                resource_owners:
+                    facebook: "/fblogin/check-facebook"
+                    google: "/fblogin/check-google"
+                oauth_user_provider:
+                    service: app.provider.oauth
+
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager
@@ -41,3 +53,4 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/login/check-facebook, roles: IS_AUTHENTICATED_ANONYMOUSLY }

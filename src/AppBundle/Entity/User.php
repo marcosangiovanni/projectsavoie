@@ -26,6 +26,20 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", nullable=true)
+     */
+    private $facebookId;
+	
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    private $facebookAccessToken;
+	
 	/**
      * @ORM\Column(type="string", length=100, nullable=true)
 	 * @Groups({"detail"})
@@ -151,6 +165,16 @@ class User extends BaseUser
         return $this;
     }
 	
+    public function setfacebookID($facebookID){
+        $this->facebookId = $facebookID;
+        return $this;
+    }
+	
+    public function setFacebookAccessToken($access_token){
+        $this->facebookAccessToken = $access_token;
+        return $this;
+    }
+	
     public function setSurname($surname){
         $this->surname = $surname;
         return $this;
@@ -189,6 +213,14 @@ class User extends BaseUser
         return $this->name;
     }
 
+    public function getfacebookId(){
+        return $this->facebookID;
+    }
+
+    public function getFacebookAccessToken(){
+        return $this->facebookAccessToken;
+    }
+	
     public function getSurname(){
         return $this->surname;
     }
