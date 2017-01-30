@@ -95,6 +95,7 @@ doctrine:
                 dql:
                   numeric_functions:
                     st_distance:     CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STDistance
+                    st_distance_sphere:     AppBundle\ORM\Query\AST\Functions\MySql\STDistanceSphere
                     point:     CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Point
                     
                 naming_strategy: doctrine.orm.naming_strategy.underscore

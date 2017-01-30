@@ -43,9 +43,6 @@ class TrainingsController extends FOSRestController
 	// Set search parameters
     public function getTrainingsAction(){
 
-		//Conversione degrees/meters (Earth mean radius)*PI/180
-		$conversion_factor = 88222;
-
 		//Find request parameters
 		$request = $this->getRequest();
 		
@@ -79,17 +76,16 @@ class TrainingsController extends FOSRestController
     				->where('t.is_public = :is_public')
     				->andWhere('t.sport_id IN (:sports)')
     				->andWhere('DATE_DIFF(t.start,CURRENT_DATE()) IN (:date)')
-    				->andWhere("st_distance(t.position,point(:x_position,:y_position))*:conversion_factor < :max_distance")
+    				->andWhere("st_distance_sphere(t.position,point(:x_position,:y_position)) < :max_distance")
 
 					//Order by distance ASC
-    				->orderBy("st_distance(t.position,point(:x_position,:y_position))", 'ASC')
+    				->orderBy("st_distance_sphere(t.position,point(:x_position,:y_position))", 'ASC')
 
 					//Parameters passage					
     				->setParameter('is_public', $is_public)
 
 					->setParameter('x_position', $point->getX())
 					->setParameter('y_position', $point->getY())
-					->setParameter('conversion_factor', $conversion_factor)
 					->setParameter('max_distance', $max_distance)
 
 					->setParameter('sports', $sports)
@@ -97,6 +93,8 @@ class TrainingsController extends FOSRestController
 					
     				->getQuery()
 		;
+		
+		//echo $query->getSelect();
 		
 		$trainings = $query->getResult();
 
