@@ -176,4 +176,38 @@ class Sport implements Translatable
         return $this;
     }
 
+
+    /**
+     * Add training
+     *
+     * @param \AppBundle\Entity\Training $training
+     *
+     * @return Sport
+     */
+    public function addTraining(\AppBundle\Entity\Training $training)
+    {
+        $this->trainings[] = $training;
+
+        return $this;
+    }
+
+    /**
+     * Remove training
+     *
+     * @param \AppBundle\Entity\Training $training
+     */
+    public function removeTraining(\AppBundle\Entity\Training $training)
+    {
+        $this->trainings->removeElement($training);
+    }
+
+    /**
+     * Get trainings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTrainings()
+    {
+        return $this->trainings;
+    }
 }

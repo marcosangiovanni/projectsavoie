@@ -43,67 +43,60 @@ class TrainingsController extends FOSRestController
 	// Set search parameters
     public function getTrainingsAction(){
 
+		//Find USER By Token
+    	$logged_user = $this->get('security.context')->getToken()->getUser();
+		
 		//Find request parameters
 		$request = $this->getRequest();
-		
-		//The training is public or visible only to facebook users
-		$is_public = $request->get('is_public');
-		
+
+		/* POSITION */		
 		//The user starting position to search for trainings
 		$x = $request->get('x');
 		$y = $request->get('y');
 		$point = new Point($x,$y);
-		
 		//The max distance in meters of training
 		$max_distance = $request->get('distance');
 
+		/* SPORT TYPE */
 		//The sports I intend to search within
 		$sports = $request->get('sports');
 
+		/* TRAINING DATETIME */
 		//The date of training
 		//0 = today
 		//1 = tomorrow
 		//etc...
 		$date = $request->get('date');
 
+		/* QUERY CONSTRUCTOR */
 		//Instantiate the repositiory		
 		$repository = $this->getDoctrine()->getRepository('AppBundle:Training');
 		
-		// Query creation with filters
-		$query = $repository->createQueryBuilder('t')
-
-					//Filtering conditions    	
-    				->where('t.is_public = :is_public')
-    				->andWhere('t.sport_id IN (:sports)')
-    				->andWhere('DATE_DIFF(t.start,CURRENT_DATE()) IN (:date)')
-    				->andWhere("st_distance_sphere(t.position,point(:x_position,:y_position)) < :max_distance")
-
-					//Order by distance ASC
-    				->orderBy("st_distance_sphere(t.position,point(:x_position,:y_position))", 'ASC')
-
-					//Parameters passage					
-    				->setParameter('is_public', $is_public)
-
-					->setParameter('x_position', $point->getX())
-					->setParameter('y_position', $point->getY())
-					->setParameter('max_distance', $max_distance)
-
-					->setParameter('sports', $sports)
-					->setParameter('date', $date)
-					
-    				->getQuery()
+		/* ADDING PARAMETER */
+		$repository->findByNotClosedTrainings()
+					->findBySports($sports)
+					->findByDate($date)
+					->findByPublic($logged_user)
+					->findByPositionAndDistance($point,$max_distance)
 		;
 		
-		//echo $query->getSelect();
+		$trainings = $repository->getQueryBuilder()->getQuery()->getResult();
 		
-		$trainings = $query->getResult();
-
 		if(!$trainings){
 			throw $this->createNotFoundException('No collection found');
 		}else{
-			$view = $this->view($trainings, 200);
-        	return $this->handleView($view);
+			$context = SerializationContext::create()
+							->setGroups(array('detail'))
+							->enableMaxDepthChecks();
+			
+			$serializer = SerializerBuilder::create()->build();
+			
+			$jsonContent = $serializer->serialize($trainings, 'json', $context);
+			
+			$jsonResponse = new Response($jsonContent);
+    		return $jsonResponse->setStatusCode(200);
 		}
+	
     }
 
 	// "post_trainings"           

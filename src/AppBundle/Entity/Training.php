@@ -14,7 +14,7 @@ use JMS\Serializer\Annotation\SerializedName;
 /**
  * @ORM\Table(name="training")
  * @ORM\Table(indexes={@ORM\Index(name="idx_training_position", columns={"position"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TrainingRepository")
  */
 class Training
 {
