@@ -46,12 +46,23 @@ class UsersController extends FOSRestController
 		//Find request parameters
 		$request = $this->getRequest();
 		
+		//If we want only training creator
+		$is_trainer = $request->get('is_trainer');
+		
+		//If we want only user with active training created
+		$is_active_trainer = $request->get('is_active_trainer');
+		
 		/* QUERY CONSTRUCTOR */
 		//Instantiate the repositiory
 		$repository = $this->getDoctrine()->getRepository('AppBundle:User');
 		
 		/* ADDING PARAMETER */
-		$repository->findByActiveTrainings();
+		if($is_trainer){
+			$repository->findByCreatedTrainings();
+		}elseif($is_active_trainer){
+			$repository->findByActiveTrainings();
+		}
+		
 		$users = $repository->getQueryBuilder()->getQuery()->getResult();
 
 		/* SERIALIZATION */
