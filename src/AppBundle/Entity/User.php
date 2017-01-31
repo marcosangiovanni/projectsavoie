@@ -143,6 +143,7 @@ class User extends BaseUser
 	 * @ORM\OneToMany(targetEntity="Training", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("created_trainings")
 	 * @Groups({"detail"})
+	 * @ORM\OrderBy({"start" = "DESC"})
 	 */
     private $trainings;
     
