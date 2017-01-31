@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use \DateTime;
@@ -12,6 +11,7 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class UsersController extends FOSRestController
 {
@@ -42,24 +42,27 @@ class UsersController extends FOSRestController
 	// [GET] /users
 	// Set search parameters
     public function getUsersAction(){
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+    	
+		//Find request parameters
+		$request = $this->getRequest();
 		
-		if(!$users){
-			throw $this->createNotFoundException('No collection found');
-		}else{
-				
-			$context = SerializationContext::create()
-							->setGroups(array('detail'))
-							->enableMaxDepthChecks();
+		/* QUERY CONSTRUCTOR */
+		//Instantiate the repositiory
+		$repository = $this->getDoctrine()->getRepository('AppBundle:User');
+		
+		/* ADDING PARAMETER */
+		$repository->findByActiveTrainings();
+		$users = $repository->getQueryBuilder()->getQuery()->getResult();
+
+		/* SERIALIZATION */
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$serializer = SerializerBuilder::create()->build();
+		$jsonContent = $serializer->serialize($users, 'json', $context);
+
+		/* JSON RESPONSE */
+		$jsonResponse = new Response($jsonContent);
+		return $jsonResponse->setStatusCode(200);
 			
-			$serializer = SerializerBuilder::create()->build();
-			
-			$jsonContent = $serializer->serialize($users, 'json', $context);
-			
-			$jsonResponse = new Response($jsonContent);
-    		return $jsonResponse->setStatusCode(200);
-			
-		}
     }
 
 	// "post_users"           

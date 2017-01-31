@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Sport;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
@@ -10,6 +9,7 @@ use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class TrainingsController extends FOSRestController
 {
@@ -82,20 +82,14 @@ class TrainingsController extends FOSRestController
 		
 		$trainings = $repository->getQueryBuilder()->getQuery()->getResult();
 		
-		if(!$trainings){
-			throw $this->createNotFoundException('No collection found');
-		}else{
-			$context = SerializationContext::create()
-							->setGroups(array('detail'))
-							->enableMaxDepthChecks();
-			
-			$serializer = SerializerBuilder::create()->build();
-			
-			$jsonContent = $serializer->serialize($trainings, 'json', $context);
-			
-			$jsonResponse = new Response($jsonContent);
-    		return $jsonResponse->setStatusCode(200);
-		}
+		/* SERIALIZATION */
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$serializer = SerializerBuilder::create()->build();
+		$jsonContent = $serializer->serialize($trainings, 'json', $context);
+		
+		/* JSON RESPONSE */
+		$jsonResponse = new Response($jsonContent);
+		return $jsonResponse->setStatusCode(200);
 	
     }
 
