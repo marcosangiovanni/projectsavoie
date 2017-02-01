@@ -18,7 +18,7 @@ class TrainingAdmin extends Admin
 			$container = $this->getConfigurationPool()->getContainer();
 			$helper = $container->get('vich_uploader.templating.helper.uploader_helper');
 			$path = $helper->asset($subject, 'imageFile');
-	        $options['help'] = '<img width="500px" src="' . $path . '" />';
+	        $options['help'] = '<img width="200px" src="' . $path . '" />';
 	    }					
 
         $formMapper	->add('title', 'text', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
@@ -30,7 +30,6 @@ class TrainingAdmin extends Admin
 					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
 					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
   					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
- 					->add('is_public')
  					->add('price')
  					->add('position','point')
 		;

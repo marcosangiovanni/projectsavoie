@@ -3,6 +3,14 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
+#Sonata internazionalization
+sonata_intl:
+    timezone:
+        default: Europe/Rome
+        locales:
+            it:    Europe/Rome
+        detectors:
+            - sonata.intl.timezone_detector.locale        
 #Uploader
 vich_uploader:
     db_driver: orm
