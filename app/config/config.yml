@@ -3,6 +3,22 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
 
+#Uploader
+vich_uploader:
+    db_driver: orm
+    mappings:
+        training_image:
+            uri_prefix:         /images/training_image
+            upload_destination: '%kernel.root_dir%/../web/images/training_image'
+            namer:              vich_uploader.namer_uniqid
+            directory_namer:    
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 4, dirs: 2} # will create directory "a/b" for "abcdef.jpg"
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true
+
+    
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -82,10 +98,8 @@ doctrine:
         password: "%database_password%"
         charset:  UTF8
         types:
-            point:      CrEOF\Spatial\DBAL\Types\Geometry\PointType
-            geometry:   CrEOF\Spatial\DBAL\Types\GeometryType
-            polygon:    CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
-            linestring: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
+            point: CrEOF\Spatial\DBAL\Types\Geometry\PointType
+            json: Sonata\Doctrine\Types\JsonType
 
     orm:
 

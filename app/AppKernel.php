@@ -56,6 +56,9 @@ class AppKernel extends Kernel
 			
 			//Per FB Login
 			new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+			
+			//Image bundle
+			new Vich\UploaderBundle\VichUploaderBundle(),
 		    
         );
 

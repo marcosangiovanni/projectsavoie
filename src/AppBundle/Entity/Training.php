@@ -11,13 +11,24 @@ use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 
+use Symfony\Component\HttpFoundation\File\File;
+
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="training")
  * @ORM\Table(indexes={@ORM\Index(name="idx_training_position", columns={"position"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TrainingRepository")
+ * @Vich\Uploadable
  */
 class Training
 {
+	/**
+     * @Vich\UploadableField(mapping="training_image", fileNameProperty="picture")
+     * @var File
+     */
+    private $imageFile;
+	
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -459,5 +470,23 @@ class Training
      */
     public function getSubscribed(){
         return $this->subscribed;
+    }
+	
+	/*
+	 *  Doctrine only upload file if any field is modified 
+	 */
+	public function setImageFile(File $image = null){
+        $this->imageFile = $image;
+        if ($image) {
+            $this->updated = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(){
+        return $this->imageFile;
     }
 }
