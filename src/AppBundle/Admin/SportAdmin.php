@@ -8,8 +8,28 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use AppBundle\Util\Utility as Utility;
 
+use Sonata\AdminBundle\Route\RouteCollection;
+
 class SportAdmin extends Admin
 {
+	public $last_position = 0;
+
+    private $positionService;
+
+    protected $datagridValues = array(
+        '_page' => 1,
+        '_sort_order' => 'ASC',
+        '_sort_by' => 'position',
+    );
+
+    public function setPositionService(\Pix\SortableBehaviorBundle\Services\PositionHandler $positionHandler){
+        $this->positionService = $positionHandler;
+    }
+
+    protected function configureRoutes(RouteCollection $collection){
+        $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
+    }
+
     protected function configureFormFields(FormMapper $formMapper){
 		//Setting 
 		$options = array('required' => false, 'attr' => array('style' => Utility::FIELD_STYLE_MEDIUM));
@@ -34,11 +54,10 @@ class SportAdmin extends Admin
     	
         $listMapper	->add('id')
 					->add('title')
-					
 					->add('picture', 'string', array('template' => 'admin/image_format_list.html.twig'))
-					
 					->add('_action', 'actions', array(
 			            'actions' => array(
+			            	'move' => array('template' => 'PixSortableBehaviorBundle:Default:_sort.html.twig'),
 			                'edit' => array(),
 			                'delete' => array(),
 			            )

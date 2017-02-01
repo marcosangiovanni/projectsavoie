@@ -72,7 +72,8 @@ stof_doctrine_extensions:
             timestampable: true
             loggable: false
             sluggable: false
-            
+            sortable: true
+
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }

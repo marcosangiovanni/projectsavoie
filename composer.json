@@ -36,7 +36,8 @@
         "facebook/graph-sdk": "^5.4",
         "vich/uploader-bundle": "^1.4",
         "sonata-project/intl-bundle": "^2.3",
-        "sonata-project/doctrine-extensions": "^1.0"
+        "sonata-project/doctrine-extensions": "^1.0",
+        "pixassociates/sortable-behavior-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

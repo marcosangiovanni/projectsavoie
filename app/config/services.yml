@@ -9,6 +9,14 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
 #Admin classes
+    
+    gedmo.listener.sortable:
+        class: Gedmo\Sortable\SortableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            
     admin.user:
         class: AppBundle\Admin\UserAdmin
         arguments: [~, AppBundle\Entity\User, ~]
@@ -29,9 +37,17 @@ services:
                         
     admin.sport:
         class: AppBundle\Admin\SportAdmin
-        arguments: [~, AppBundle\Entity\Sport, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Sport }
+        arguments:
+            - ~
+            - AppBundle\Entity\Sport
+            - 'PixSortableBehaviorBundle:SortableAdmin'
+            
+            
+            
+            
+            
 
 #Api entrypoint                        
     api_authentication_entry_point:

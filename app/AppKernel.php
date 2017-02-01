@@ -62,6 +62,7 @@ class AppKernel extends Kernel
 			
 			//Image bundle
 			new Vich\UploaderBundle\VichUploaderBundle(),
+			new Pix\SortableBehaviorBundle\PixSortableBehaviorBundle(),
 		    
         );
 

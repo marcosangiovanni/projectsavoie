@@ -19,6 +19,12 @@ class Sport implements Translatable
 {
 	
 	/**
+	 * @Gedmo\SortablePosition
+	 * @ORM\Column(name="position", type="integer")
+	 */
+	private $position;
+
+	/**
      * @Vich\UploadableField(mapping="training_image", fileNameProperty="picture")
      * @var File
      */
@@ -103,6 +109,10 @@ class Sport implements Translatable
         return $this->title;
     }
 
+    public function getPosition(){
+        return $this->position;
+    }
+	
 	/**********************
 	 * SET METHODS        *
 	 **********************/
@@ -114,6 +124,11 @@ class Sport implements Translatable
         $this->title = $title;
     }
 
+	public function setPosition($position){
+        $this->position = $position;
+        return $this;
+    }
+	
 	/**********************
 	 * TRANS. METHODS     *
 	 **********************/
