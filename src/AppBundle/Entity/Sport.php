@@ -7,12 +7,23 @@ use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\Groups;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Table(name="sport")
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Sport implements Translatable
 {
+	
+	/**
+     * @Vich\UploadableField(mapping="training_image", fileNameProperty="picture")
+     * @var File
+     */
+    private $imageFile;
+	
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -210,4 +221,23 @@ class Sport implements Translatable
     {
         return $this->trainings;
     }
+
+	/*
+	 *  Doctrine only upload file if any field is modified 
+	 */
+	public function setImageFile(File $image = null){
+        $this->imageFile = $image;
+        if ($image) {
+            $this->updated = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(){
+        return $this->imageFile;
+    }
+	
 }

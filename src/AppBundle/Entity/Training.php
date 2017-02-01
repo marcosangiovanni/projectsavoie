@@ -12,7 +12,6 @@ use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 
 use Symfony\Component\HttpFoundation\File\File;
-
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**

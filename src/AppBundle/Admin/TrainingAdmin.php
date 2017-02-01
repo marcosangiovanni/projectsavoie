@@ -18,7 +18,7 @@ class TrainingAdmin extends Admin
 			$container = $this->getConfigurationPool()->getContainer();
 			$helper = $container->get('vich_uploader.templating.helper.uploader_helper');
 			$path = $helper->asset($subject, 'imageFile');
-	        $options['help'] = '<img width="200px" src="' . $path . '" />';
+	        $options['help'] = '<img width="500px" src="' . $path . '" />';
 	    }					
 
         $formMapper	->add('title', 'text', array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
