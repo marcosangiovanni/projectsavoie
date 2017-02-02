@@ -121,7 +121,7 @@ class Training
     private $sport;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="trainings")
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="trainings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 * @MaxDepth(2)
 	 * @Groups({"detail"})
@@ -404,7 +404,7 @@ class Training
      * @param \AppBundle\Entity\User $user
      * @return Training
      */
-    public function setUser(\AppBundle\Entity\User $user = null){
+    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null){
         $this->user = $user;
         return $this;
     }

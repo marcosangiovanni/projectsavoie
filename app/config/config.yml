@@ -136,7 +136,10 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
                         alias: GedmoTranslator # (optional) it will default to the name set for the mapping
                         is_bundle: false
-
+                    ApplicationSonataUserBundle: ~
+                    SonataUserBundle: ~
+                    FOSUserBundle: ~
+                    
 sonata_doctrine_orm_admin:
     templates:
       types:
@@ -166,7 +169,15 @@ fos_user:
                                                         # but since there is no "login", as so it seems to be useless in
                                                         # our particular context, but still required by "FOSUserBundle"
 #    firewall_name: main
-    user_class: AppBundle\Entity\User
+#    user_class: AppBundle\Entity\User
+    user_class: Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+#        group_manager: sonata.user.orm.group_manager
+#    service:
+#        user_manager: sonata.user.orm.user_manager
+
+        
 
 fos_rest:
     param_fetcher_listener: true
@@ -186,3 +197,11 @@ sonata_block:
         # enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts: [admin]
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+        
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+

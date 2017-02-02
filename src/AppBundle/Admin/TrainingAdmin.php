@@ -41,9 +41,10 @@ class TrainingAdmin extends Admin
 	            												'callback' => array(new \AppBundle\Util\Utility(), 'filterByName'),
 	            												'field_type' => 'text',
              												  ), 
-             												  'entity',array(
-														                'class' => 'AppBundle\Entity\User',
-														                'choice_label' => 'surname'
+             												  'entity',
+             												  array(
+														                'class' => 'Application\Sonata\UserBundle\Entity\User',
+														                'choice_label' => 'email'
 															  )
 						)
 						->add('sport')
@@ -58,7 +59,7 @@ class TrainingAdmin extends Admin
         $listMapper	->addIdentifier('id')
 					->addIdentifier('title')
 					->addIdentifier('user', 'entity', array(
-            				'class' 	=> 	'AppBundle\Entity\User',
+            				'class' 	=> 	'Application\Sonata\UserBundle\Entity\User',
             				'property' 	=> 	'name',
         				)
 					)
