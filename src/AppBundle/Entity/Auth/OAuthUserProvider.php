@@ -49,7 +49,7 @@ class OAuthUserProvider extends BaseClass
                     $user->setGoogleID($socialID);
                     break;
                 case 'facebook':
-                    $user->setFacebookID($socialID);
+                    $user->setFacebookUid($socialID);
                     break;
             }
             $this->userManager->updateUser($user);

@@ -19,7 +19,7 @@ class UsersController extends FOSRestController
 	// [GET] /users/{id}
 	public function getUserAction($id){
 		//Find user data
-		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+		$user = $this->getDoctrine()->getRepository('ApplicationSonataUserBundle:User')->find($id);
 
 		if(!$user){
 			throw $this->createNotFoundException('No product found for id '.$id);
@@ -54,7 +54,7 @@ class UsersController extends FOSRestController
 		
 		/* QUERY CONSTRUCTOR */
 		//Instantiate the repositiory
-		$repository = $this->getDoctrine()->getRepository('AppBundle:User');
+		$repository = $this->getDoctrine()->getRepository('ApplicationSonataUserBundle:User');
 		
 		/* ADDING PARAMETER */
 		if($is_trainer){

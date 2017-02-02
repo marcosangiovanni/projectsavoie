@@ -401,7 +401,7 @@ class Training
     }
 
     /**
-     * @param \AppBundle\Entity\User $user
+     * @param \Application\Sonata\UserBundle\Entity\User $user
      * @return Training
      */
     public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null){
@@ -410,7 +410,7 @@ class Training
     }
 
     /**
-     * @return \AppBundle\Entity\User 
+     * @return \Application\Sonata\UserBundle\Entity\User
      */
     public function getUser(){
         return $this->user;

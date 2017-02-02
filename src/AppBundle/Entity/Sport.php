@@ -71,8 +71,10 @@ class Sport implements Translatable
      */
     private $updated;
 
-	/**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="sports")
+    /**
+     * @ORM\ManyToMany(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="sports")
+     * @ORM\JoinTable(name="ass_user_sport")
+	 * @Groups({"detail"})
      */
     private $users;
 
@@ -139,10 +141,10 @@ class Sport implements Translatable
     /**
      * Add users
      *
-     * @param \AppBundle\Entity\User $users
+     * @param \Application\Sonata\UserBundle\Entity\User $users
      * @return Sport
      */
-    public function addUser(\AppBundle\Entity\User $users){
+    public function addUser(\Application\Sonata\UserBundle\Entity\User $users){
         $this->users[] = $users;
         return $this;
     }
@@ -150,9 +152,9 @@ class Sport implements Translatable
     /**
      * Remove users
      *
-     * @param \AppBundle\Entity\User $users
+     * @param \Application\Sonata\UserBundle\Entity\User $users
      */
-    public function removeUser(\AppBundle\Entity\User $users){
+    public function removeUser(\Application\Sonata\UserBundle\Entity\User $users){
         $this->users->removeElement($users);
     }
 
