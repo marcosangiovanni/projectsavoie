@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use \DateTime;
 use \Exception;
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
@@ -46,9 +47,13 @@ class UsersController extends FOSRestController
 		
 		//If we want only training creator
 		$is_trainer = $request->get('is_trainer');
-		
 		//If we want only user with active training created
 		$is_active_trainer = $request->get('is_active_trainer');
+
+		/* POSITION */		
+		//The user starting position to search for trainings
+		$x = $request->get('x');
+		$y = $request->get('y');
 		
 		/* QUERY CONSTRUCTOR */
 		//Instantiate the repositiory
@@ -59,6 +64,12 @@ class UsersController extends FOSRestController
 			$repository->findByCreatedTrainings();
 		}elseif($is_active_trainer){
 			$repository->findByActiveTrainings();
+		}
+		
+		//If a starting point it's present the order is set by training position
+		if($x && $y){
+			$point = new Point($x,$y);
+			$repository->orderByPosition($point);
 		}
 		
 		$users = $repository->getQueryBuilder()->getQuery()->getResult();

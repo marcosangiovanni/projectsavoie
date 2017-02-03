@@ -67,6 +67,14 @@ class TrainingRepository extends EntityRepository
 		return $this;
     }
 
+    public function orderByPosition(Point $point){
+        $this->query_builder->orderBy("st_distance_sphere(t.position,point(:x_position,:y_position))")
+        			->setParameter('x_position', $point->getX())
+					->setParameter('y_position', $point->getY())
+		;
+		return $this;
+    }
+
 }
 
 ?>
