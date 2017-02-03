@@ -78,7 +78,7 @@ class UserAdmin extends BaseUserAdmin
                 
 				->add('imageFile', 'file', array_merge($options,array('label' => 'Image file', 'required' => false, 'attr' => array('style' => Utility::FIELD_STYLE_MEDIUM))))
                 
-                ->add('video', null, array('required' => false, 'attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
+                ->add('video', 'url', array('label' => 'Video', 'required' => false, 'attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
             ->end()
             ->with('Social')
                 ->add('facebookUid', null, array('required' => false, 'attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
