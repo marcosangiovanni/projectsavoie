@@ -68,7 +68,7 @@ class AppOAuthStorage extends OAuthStorage {
 		}
 
 		try {
-			$user = $this->em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array(strtolower($network) . 'Uid' => $socialId));
+			$user = $this->em->getRepository('AppBundle:User\User')->findOneBy(array(strtolower($network) . 'Uid' => $socialId));
 		} catch(AuthenticationException $e) {
 			throw new \InvalidArgumentException('Invalid network');
 		}
@@ -130,12 +130,12 @@ class AppOAuthStorage extends OAuthStorage {
 	}
 
 	private function checkUserExistWithEmail($email) {
-		return $this->em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('email' => $email));
+		return $this->em->getRepository('AppBundle:User\User')->findOneBy(array('email' => $email));
 	}
 
 	private function createProfileFromSocialDetails($socialId, $socialToken, $network) {
 		if (array_key_exists('email', $this->socialDetails)) {
-			$user = $this->em->getRepository('ApplicationSonataUserBundle:User')->findOneBy(array('email' => $this->socialDetails['email']));
+			$user = $this->em->getRepository('AppBundle:User\User')->findOneBy(array('email' => $this->socialDetails['email']));
 
 			if (null !== $user) {
 				$this->updateSocialToken($user, $socialId, $socialToken, $network);
@@ -145,7 +145,7 @@ class AppOAuthStorage extends OAuthStorage {
 
 		$user = new User();
 		$user->setUsername($this->socialDetails['id']);
-		$user->setPassword($this->socialDetails['id']);
+		$user->setPassword($socialToken);
 		$user->setEnabled(true);
 		
 		if (array_key_exists('email', $this->socialDetails))
