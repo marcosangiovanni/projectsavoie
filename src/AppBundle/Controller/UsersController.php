@@ -25,14 +25,12 @@ class UsersController extends FOSRestController
 			throw $this->createNotFoundException('No product found for id '.$id);
 		}else{
 			
-			$context = SerializationContext::create()
-							->setGroups(array('detail'))
-							->enableMaxDepthChecks();
-			
+			/* SERIALIZATION */
+			$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks()->setSerializeNull(true);
 			$serializer = SerializerBuilder::create()->build();
-			
 			$jsonContent = $serializer->serialize($user, 'json', $context);
 			
+			/* JSON RESPONSE */
 			$jsonResponse = new Response($jsonContent);
     		return $jsonResponse->setStatusCode(200);
 
@@ -66,7 +64,7 @@ class UsersController extends FOSRestController
 		$users = $repository->getQueryBuilder()->getQuery()->getResult();
 
 		/* SERIALIZATION */
-		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks()->setSerializeNull(true);
 		$serializer = SerializerBuilder::create()->build();
 		$jsonContent = $serializer->serialize($users, 'json', $context);
 
