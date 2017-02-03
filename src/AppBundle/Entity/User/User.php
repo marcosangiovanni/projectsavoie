@@ -329,29 +329,6 @@ class User extends BaseUser
 	 ***************************/
 	 
     /**
-     * @param \AppBundle\Entity\Invite $invited
-     * @return User
-     */
-    public function addInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited[] = $invited;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Invite $invited
-     */
-    public function removeInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited->removeElement($invited);
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getInvited(){
-        return $this->invited;
-    }
-
-    /**
      * @param \AppBundle\Entity\Subscribed $subscribed
      * @return User
      */

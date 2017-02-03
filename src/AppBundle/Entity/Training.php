@@ -130,11 +130,6 @@ class Training
     private $user;
 
 	/**
-     * @ORM\OneToMany(targetEntity="Invite", mappedBy="training", cascade={"remove"})
-     */	
-    private $invited;
-		
-	/**
      * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="training", cascade={"remove"})
 	 * @MaxDepth(3)
 	 * @Groups({"detail"})

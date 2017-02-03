@@ -31,6 +31,7 @@ class TrainingAdmin extends Admin
 					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
   					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
  					->add('price')
+ 					->add('is_public')
  					->add('position','point')
 		;
     }
