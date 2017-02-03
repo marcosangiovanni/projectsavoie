@@ -26,7 +26,7 @@ class UsersController extends FOSRestController
 		}else{
 			
 			/* SERIALIZATION */
-			$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks()->setSerializeNull(true);
+			$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
 			$serializer = SerializerBuilder::create()->build();
 			$jsonContent = $serializer->serialize($user, 'json', $context);
 			
@@ -64,7 +64,7 @@ class UsersController extends FOSRestController
 		$users = $repository->getQueryBuilder()->getQuery()->getResult();
 
 		/* SERIALIZATION */
-		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks()->setSerializeNull(true);
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
 		$serializer = SerializerBuilder::create()->build();
 		$jsonContent = $serializer->serialize($users, 'json', $context);
 

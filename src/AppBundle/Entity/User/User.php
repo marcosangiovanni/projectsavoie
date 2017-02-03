@@ -25,6 +25,12 @@ class User extends BaseUser
      */
     protected $id;
 
+
+
+	/*************************
+	 * NEW DEFINED FIELDS    *
+	 *************************/
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
@@ -42,6 +48,48 @@ class User extends BaseUser
 	 * @Groups({"detail"})
 	 */
     private $city;
+
+
+	/***********************************************
+	 * FIELDS INHERITED FROM SonataUserBundle      *
+	 * ADDED IN THIS PLACE TO DEFINE SERIALIZATION *
+	 ***********************************************/
+
+    /**
+	 * @Groups({"detail"})
+	 */
+    protected $firstname;
+
+    /**
+	 * @Groups({"detail"})
+	 */
+    protected $lastname;
+
+    /**
+	 * @Groups({"detail"})
+	 */
+    protected $email;
+
+    /**
+	 * @Groups({"detail"})
+	 */
+    protected $phone;
+
+    /**
+	 * @Groups({"detail"})
+	 */
+    protected $gender;
+
+    /**
+	 * @Groups({"detail"})
+	 */
+    protected $dateOfBirth;
+
+
+
+	/**********************************
+	 * FIELDS TO DEFINE RELATIONSHIPS *
+	 **********************************/
 
 	/**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacebookFriend", mappedBy="user", cascade={"remove"})
@@ -88,6 +136,8 @@ class User extends BaseUser
 	 * @ORM\OrderBy({"start" = "DESC"})
 	 */
     private $trainings;
+	
+	
 	
     public function __construct(){
         parent::__construct();
