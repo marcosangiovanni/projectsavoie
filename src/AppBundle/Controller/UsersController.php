@@ -130,6 +130,9 @@ class UsersController extends FOSRestController
     	//Find USER By Token
     	$logged_user = $this->get('security.context')->getToken()->getUser();
 		
+		//Check is granted
+		$is_granted = $this->get('security.context')->isGranted('ROLE_USER');
+		
 		if($logged_user->getId() != $id){
 			throw new Exception('You cant modify this user');
 		}
