@@ -2,8 +2,11 @@
 namespace AppBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
+
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
+
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JMS\Serializer\Annotation\Groups;
@@ -14,6 +17,8 @@ use JMS\Serializer\Annotation\SerializedName;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 /**
  * @ORM\Table(name="training")
  * @ORM\Table(indexes={@ORM\Index(name="idx_training_position", columns={"position"})})
@@ -420,30 +425,6 @@ class Training
     }
 
     /**
-     * @param \AppBundle\Entity\Invite $invited
-     * @return Training
-     */
-    public function addInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited[] = $invited;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Invite $invited
-     */
-    public function removeInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited->removeElement($invited);
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getInvited(){
-        return $this->invited;
-    }
-
-
-    /**
      * @param \AppBundle\Entity\Subscribed $subscribed
      * @return Training
      */
@@ -483,4 +464,23 @@ class Training
     public function getImageFile(){
         return $this->imageFile;
     }
+	
+	
+	/* Lon lat management */
+	
+	public function setLatLng($latlng)
+    {
+        $this->setPosition(new Point($latlng['lat'], $latlng['lng']));
+        return $this;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @OhAssert\LatLng()
+     */
+    public function getLatLng()
+    {
+        return array('lat'=>$this->getPosition()->getX(),'lng'=>$this->getPosition()->getY());
+    }
+	
 }

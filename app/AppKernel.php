@@ -29,6 +29,9 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             
+			//Assetc managemnt
+			new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+			
 			//Main App
             new AppBundle\AppBundle(),
 
@@ -61,6 +64,7 @@ class AppKernel extends Kernel
 			
 			//Gestione dei form con dati spazioni per inserimento con gmaps
 			new Looptribe\FormSpatialBundle\LooptribeFormSpatialBundle(),
+			new Oh\GoogleMapFormTypeBundle\OhGoogleMapFormTypeBundle(),
 			
 			//Per FB Login
 			new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),

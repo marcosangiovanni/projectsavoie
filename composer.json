@@ -40,7 +40,9 @@
         "pixassociates/sortable-behavior-bundle": "^1.1",
         "sonata-project/easy-extends-bundle": "^2.1",
         "sonata-project/user-bundle": "2.*",
-        "ddproxy/doctrine2-spatial": "dev-master"
+        "ddproxy/doctrine2-spatial": "dev-master",
+        "oh/google-map-form-type-bundle": "^1.0",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

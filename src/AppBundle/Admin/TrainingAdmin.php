@@ -32,7 +32,7 @@ class TrainingAdmin extends Admin
   					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
  					->add('is_public')
  					->add('price')
- 					->add('position','point')
+ 					->add('latlng','oh_google_maps',array('label' => 'Training position','map_width' => 500),array())
 		;
     }
 	

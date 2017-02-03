@@ -207,3 +207,12 @@ sonata_user:
         user: AppBundle\Entity\User\User
 #        group: AppBundle\Entity\User\Group
 
+# Assetic Configuration
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+    bundles:        [ 'OhGoogleMapFormTypeBundle' ]
+
+    
