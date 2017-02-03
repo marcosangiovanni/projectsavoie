@@ -21,4 +21,12 @@ class Utility{
 		return true;
 	}
 	
+	public function filterByUserId($queryBuilder, $alias, $field, $value){
+		if(!$value['value']){
+			return;
+		}
+		$queryBuilder->andWhere($alias . '.user_id' . ' = ' . ':user_id' )->setParameter('user_id' , $value['value']->getId());
+		return true;
+	}
+	
 }

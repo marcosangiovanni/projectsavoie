@@ -30,24 +30,15 @@ class TrainingAdmin extends Admin
 					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
 					->add('end','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
   					->add('cutoff','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
- 					->add('price')
  					->add('is_public')
+ 					->add('price')
  					->add('position','point')
 		;
     }
 	
     protected function configureDatagridFilters(DatagridMapper $datagridMapper){
         $datagridMapper	->add('title')
-						->add('user','doctrine_orm_callback', array(
-	            												'callback' => array(new \AppBundle\Util\Utility(), 'filterByName'),
-	            												'field_type' => 'text',
-             												  ), 
-             												  'entity',
-             												  array(
-														                'class' => 'AppBundle\Entity\User\User',
-														                'choice_label' => 'email'
-															  )
-						)
+						->add('user')
 						->add('sport')
 						->add('start', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => Utility::DATE_FORMAT_DATE))
 						->add('end', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => Utility::DATE_FORMAT_DATE))
@@ -59,16 +50,8 @@ class TrainingAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper){
         $listMapper	->addIdentifier('id')
 					->addIdentifier('title')
-					->addIdentifier('user', 'entity', array(
-            				'class' 	=> 	'AppBundle\Entity\User\User',
-            				'property' 	=> 	'name',
-        				)
-					)
-					->addIdentifier('sport', 'entity', array(
-            				'class' 	=> 	'AppBundle\Entity\Sport',
-            				'property' 	=> 	'name',
-        				)
-					)
+					->add('user')
+					->addIdentifier('sport')
 					->addIdentifier('start')
 					->addIdentifier('end')
 					->addIdentifier('cutoff')

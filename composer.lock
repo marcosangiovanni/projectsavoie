@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b698f6b8058d55b14bd0890e7a502b89",
+    "content-hash": "04ad0c595e7bae634d750f0df6154cc1",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -324,6 +324,63 @@
                 "wkt"
             ],
             "time": "2016-05-03T16:15:16+00:00"
+        },
+        {
+            "name": "ddproxy/doctrine2-spatial",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddproxy/doctrine2-spatial.git",
+                "reference": "bfd98cb89f24230e6d2d064d5431fd20e0cabf10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ddproxy/doctrine2-spatial/zipball/bfd98cb89f24230e6d2d064d5431fd20e0cabf10",
+                "reference": "bfd98cb89f24230e6d2d064d5431fd20e0cabf10",
+                "shasum": ""
+            },
+            "require": {
+                "creof/geo-parser": "~2.0",
+                "creof/wkb-parser": "~2.0",
+                "creof/wkt-parser": "~2.0",
+                "doctrine/orm": ">=2.3"
+            },
+            "require-dev": {
+                "phpunit/phpcov": "*",
+                "phpunit/phpunit": "<5.0",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "CrEOF\\Spatial": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Derek Lambert",
+                    "email": "dlambert@dereklambert.com"
+                }
+            ],
+            "description": "Doctrine2 multi-platform support for spatial types and functions",
+            "keywords": [
+                "database",
+                "dbal",
+                "geography",
+                "geometry",
+                "gis",
+                "mysql",
+                "opengis",
+                "orm",
+                "postgis",
+                "postgresql",
+                "spatial"
+            ],
+            "time": "2015-12-27 04:32:42"
         },
         {
             "name": "doctrine/annotations",
@@ -2383,21 +2440,21 @@
         },
         {
             "name": "looptribe/form-spatial",
-            "version": "dev-master",
+            "version": "v0.0.1",
             "target-dir": "Looptribe/FormSpatialBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/looptribe/form-spatial.git",
-                "reference": "3059e777142792714973096d101a1707e8987ceb"
+                "reference": "66643e68ebdb7462d66461d1467d877bd924846f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/looptribe/form-spatial/zipball/3059e777142792714973096d101a1707e8987ceb",
-                "reference": "3059e777142792714973096d101a1707e8987ceb",
+                "url": "https://api.github.com/repos/looptribe/form-spatial/zipball/66643e68ebdb7462d66461d1467d877bd924846f",
+                "reference": "66643e68ebdb7462d66461d1467d877bd924846f",
                 "shasum": ""
             },
             "require": {
-                "creof/doctrine2-spatial": "dev-master",
+                "ddproxy/doctrine2-spatial": "dev-master",
                 "symfony/form": "~2.2",
                 "twig/twig": "~1.12"
             },
@@ -2427,7 +2484,7 @@
                 "gmaps",
                 "spatial"
             ],
-            "time": "2015-10-22 08:08:50"
+            "time": "2015-09-22T14:21:51+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5207,7 +5264,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "creof/doctrine2-spatial": 20,
-        "looptribe/form-spatial": 20
+        "ddproxy/doctrine2-spatial": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
