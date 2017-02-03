@@ -5,7 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use \DateTime;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
-use Application\Sonata\UserBundle\Entity\User;
+use AppBundle\Entity\User\User;
 
 class UserRepository extends EntityRepository
 {

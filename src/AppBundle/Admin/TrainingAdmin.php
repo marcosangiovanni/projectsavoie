@@ -43,7 +43,7 @@ class TrainingAdmin extends Admin
              												  ), 
              												  'entity',
              												  array(
-														                'class' => 'Application\Sonata\UserBundle\Entity\User',
+														                'class' => 'AppBundle\Entity\User\User',
 														                'choice_label' => 'email'
 															  )
 						)
@@ -59,7 +59,7 @@ class TrainingAdmin extends Admin
         $listMapper	->addIdentifier('id')
 					->addIdentifier('title')
 					->addIdentifier('user', 'entity', array(
-            				'class' 	=> 	'Application\Sonata\UserBundle\Entity\User',
+            				'class' 	=> 	'AppBundle\Entity\User\User',
             				'property' 	=> 	'name',
         				)
 					)

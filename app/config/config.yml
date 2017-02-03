@@ -136,7 +136,6 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
                         alias: GedmoTranslator # (optional) it will default to the name set for the mapping
                         is_bundle: false
-                    ApplicationSonataUserBundle: ~
                     SonataUserBundle: ~
                     FOSUserBundle: ~
                     
@@ -170,9 +169,9 @@ fos_user:
                                                         # our particular context, but still required by "FOSUserBundle"
 #    firewall_name: main
 #    user_class: AppBundle\Entity\User
-    user_class: Application\Sonata\UserBundle\Entity\User
+    user_class: AppBundle\Entity\User\User
     group:
-        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_class:   AppBundle\Entity\User\Group
 #        group_manager: sonata.user.orm.group_manager
 #    service:
 #        user_manager: sonata.user.orm.user_manager
@@ -204,4 +203,7 @@ sonata_block:
 sonata_user:
     security_acl: true
     manager_type: orm # can be orm or mongodb
+    class:
+        user: AppBundle\Entity\User\User
+#        group: AppBundle\Entity\User\Group
 

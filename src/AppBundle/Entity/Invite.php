@@ -46,7 +46,7 @@ class Invite
     private $updated;
 
 	/** 
-     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="invited") 
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="invited") 
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */ 
     private $user; 
@@ -168,17 +168,17 @@ class Invite
 	 ***************************/
 
     /**
-     * @return \Application\Sonata\UserBundle\Entity\User
+     * @return \AppBundle\Entity\User\User
      */
     public function getUser(){
         return $this->user;
     }
 
     /**
-     * @param Application\Sonata\UserBundle\Entity\User $user
+     * @param AppBundle\Entity\User\User $user
      * @return Invite
      */
-    public function setUser(\Application\Sonata\UserBundle\Entity\User $user = null){
+    public function setUser(\AppBundle\Entity\User\User $user = null){
         $this->user = $user;
         return $this;
     }
@@ -187,7 +187,7 @@ class Invite
      * @param \AppBundle\Entity\Training $sport
      * @return Invite
      */
-    public function setSport(\AppBundle\Entity\Training $sport = null){
+    public function setSport(\AppBundle\Entity\User\User $sport = null){
         $this->sport = $sport;
         return $this;
     }

@@ -23,7 +23,7 @@ app_oauth_social:
         network:  facebook|google|twitter
         
 #Sonata user bundle routing
-sonata_user_admin_security:
+sonata_user:
     resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
     prefix: /admin
 

@@ -6,7 +6,7 @@ use Facebook\Exceptions\FacebookSDKException;
 
 use OAuth2\Model\IOAuth2Client;
 use Doctrine\ORM\EntityManager;
-use Application\Sonata\UserBundle\Entity\User;
+use AppBundle\Entity\User\User;
 
 use FOS\OAuthServerBundle\Storage\OAuthStorage;
 use FOS\OAuthServerBundle\Model\ClientInterface;

@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             //Bundle for admin user management
 			new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+			new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
 
 			//Symfony original installation
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -40,7 +41,6 @@ class AppKernel extends Kernel
 			new Sonata\IntlBundle\SonataIntlBundle(),
 			//Sonata easy extend used to extend sonata bundles
 			new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-			new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
 
             // Storage and SonataAdminBundle
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
