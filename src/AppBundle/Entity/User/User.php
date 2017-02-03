@@ -11,9 +11,13 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="fos_user_user")
+ * @Vich\Uploadable
  */
 class User extends BaseUser
 {
@@ -31,6 +35,12 @@ class User extends BaseUser
 	 * NEW DEFINED FIELDS    *
 	 *************************/
 
+	/**
+     * @Vich\UploadableField(mapping="training_image", fileNameProperty="picture")
+     * @var File
+     */
+    private $imageFile;
+	
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
@@ -48,7 +58,6 @@ class User extends BaseUser
 	 * @Groups({"detail"})
 	 */
     private $city;
-
 
 	/***********************************************
 	 * FIELDS INHERITED FROM SonataUserBundle      *
@@ -206,7 +215,7 @@ class User extends BaseUser
     }
 
 
-/*************************
+	/*************************
 	 * FB FRIENDS MANAGEMENT *
 	 *************************/
 
@@ -423,5 +432,29 @@ class User extends BaseUser
     public function getTrainings(){
         return $this->trainings;
     }
+
+
+	/***************************
+	 * IMAGE UPLOAD MANAGEMENT *
+	 ***************************/
+	
+	/*
+	 *  Doctrine only upload file if any field is modified 
+	 */
+	public function setImageFile(File $image = null){
+        $this->imageFile = $image;
+        if ($image) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(){
+        return $this->imageFile;
+    }
+	
 
 }

@@ -25,6 +25,16 @@ vich_uploader:
             inject_on_load:     true
             delete_on_update:   true
             delete_on_remove:   true
+        user_image:
+            uri_prefix:         /images/user_image
+            upload_destination: '%kernel.root_dir%/../web/images/user_image'
+            namer:              vich_uploader.namer_uniqid
+            directory_namer:    
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 4, dirs: 2} # will create directory "a/b" for "abcdef.jpg"
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true
 
     
 # Twig Configuration
@@ -206,7 +216,9 @@ sonata_user:
     class:
         user: AppBundle\Entity\User\User
 #        group: AppBundle\Entity\User\Group
-
+    admin:                  # Admin Classes
+        user:
+            class:          AppBundle\Admin\UserAdmin
 # Assetic Configuration
 assetic:
     debug:          '%kernel.debug%'
