@@ -16,9 +16,8 @@ security:
 
     providers:
         fos_userbundle:
-#            id: fos_user.user_provider.username_email
-            id: fos_user.user_provider.username        # fos_user.user_provider.username_email does not seem to work (OAuth-spec related ("username + password") ?)
-
+            id: fos_user.user_manager
+            
     firewalls:
                     
         oauth_token:                                   # Everyone can access the access token URL.

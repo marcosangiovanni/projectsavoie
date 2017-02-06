@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
@@ -26,6 +27,7 @@ class User extends BaseUser
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
 	 * @Groups({"detail"})
+	 * @Type("integer")
      */
     protected $id;
 
@@ -44,18 +46,21 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     private $video;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     private $city;
 
@@ -66,31 +71,37 @@ class User extends BaseUser
 
     /**
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     protected $firstname;
 
     /**
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     protected $lastname;
 
     /**
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     protected $email;
 
     /**
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     protected $phone;
 
     /**
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     protected $gender;
 
     /**
 	 * @Groups({"detail"})
+	 * @Type("datetime")
 	 */
     protected $dateOfBirth;
 
@@ -104,6 +115,7 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacebookFriend", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("facebook_friends")
 	 * @Groups({"detail"})
+	 * @Type("collection")
 	 */
     private $friends;
 

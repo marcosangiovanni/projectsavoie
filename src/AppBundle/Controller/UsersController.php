@@ -1,6 +1,19 @@
 <?php
 
 namespace AppBundle\Controller;
+
+
+
+
+
+use AppBundle\User\User;
+
+
+
+
+
+
+
 use FOS\RestBundle\Controller\FOSRestController;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -143,6 +156,36 @@ class UsersController extends FOSRestController
 		
 		//Check is granted
 		$is_granted = $this->get('security.context')->isGranted('ROLE_USER');
+		
+		
+		$user = $this->getDoctrine()->getRepository('AppBundle:User\User')->find($id);
+		
+		$request = $this->getRequest();
+		//$inputStr = $request->request->all();
+		
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$serializer = SerializerBuilder::create()->build();
+		
+		$jsonData = $serializer->serialize($user, 'json', $context);
+		
+		$obj = $serializer->deserialize($jsonData, 'AppBundle\Entity\User\User', 'json');
+		
+		var_dump($jsonData);
+		exit;
+		
+
+		//$content = json_decode($jsonData,true);
+		$obj = $serializer->deserialize($jsonData, 'AppBundle:User\User', 'json');
+
+		die('r234323');
+		
+/*
+		$request = $this->getRequest();
+		$data = $request->request->all();
+    	$this->mapDataOnEntity($data, $user, array('detail'));
+*/
+		
+		die('4237384687326');
 		
 		if($logged_user->getId() != $id){
 			throw new Exception('You cant modify this user');
