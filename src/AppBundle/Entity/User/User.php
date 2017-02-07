@@ -32,7 +32,6 @@ class User extends BaseUser
     protected $id;
 
 
-
 	/*************************
 	 * NEW DEFINED FIELDS    *
 	 *************************/
@@ -63,6 +62,7 @@ class User extends BaseUser
 	 * @Type("string")
 	 */
     private $city;
+
 
 	/***********************************************
 	 * FIELDS INHERITED FROM SonataUserBundle      *
@@ -101,9 +101,15 @@ class User extends BaseUser
 
     /**
 	 * @Groups({"detail"})
-	 * @Type("datetime")
+	 * @Type("DateTime<'Y-m-d'>")
 	 */
     protected $dateOfBirth;
+
+    /**
+	 * @Groups({"detail"})
+	 * @Type("string")
+	 */
+	protected $facebookUid;
 
 
 
@@ -115,7 +121,7 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacebookFriend", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("facebook_friends")
 	 * @Groups({"detail"})
-	 * @Type("collection")
+	 * @Type("ArrayCollection")
 	 */
     private $friends;
 
@@ -138,6 +144,7 @@ class User extends BaseUser
 	 * @Groups({"detail"})
      * @MaxDepth(2)
 	 * @SerializedName("friends")
+	 * @Type("ArrayCollection")
      */
     private $myFriends;
 
@@ -146,7 +153,8 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Subscribed", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("associated_trainings")
 	 * @Groups({"detail"})
-	 */
+	 * @Type("ArrayCollection")
+     */
     private $subscribed;
 
 	/**
@@ -155,7 +163,8 @@ class User extends BaseUser
 	 * @SerializedName("created_trainings")
 	 * @Groups({"detail"})
 	 * @ORM\OrderBy({"start" = "DESC"})
-	 */
+	 * @Type("ArrayCollection")
+     */
     private $trainings;
 	
 	
