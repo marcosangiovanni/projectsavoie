@@ -38,11 +38,6 @@ services:
             - AppBundle\Entity\Sport
             - 'PixSortableBehaviorBundle:SortableAdmin'
             
-            
-            
-            
-            
-
 #Api entrypoint                        
     api_authentication_entry_point:
          class: AppBundle\Entity\Auth\ApiAuthenticationEntryPoint
