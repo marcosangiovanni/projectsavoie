@@ -5,7 +5,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
+
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -35,14 +37,16 @@ class Sport implements Translatable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
 	 * @Groups({"detail"})
-	 */
+	 * @Type("integer")
+     */
     private $id;
 
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=256)
 	 * @Groups({"detail"})
-	 */
+	 * @Type("string")
+     */
     private $title;
 
     /**
@@ -56,7 +60,8 @@ class Sport implements Translatable
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
-	 */
+	 * @Type("string")
+     */
     private $picture;
 
 	/**
@@ -75,7 +80,8 @@ class Sport implements Translatable
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User\User", inversedBy="sports")
      * @ORM\JoinTable(name="ass_user_sport")
 	 * @Groups({"detail"})
-     */
+	 * @Type("ArrayCollection")
+	 */
     private $users;
 
 	/**
@@ -120,10 +126,12 @@ class Sport implements Translatable
 	 **********************/
     public function setPicture($picture){
         $this->picture = $picture;
+		return $this;
     }
 
     public function setTitle($title){
         $this->title = $title;
+		return $this;
     }
 
 	public function setPosition($position){
