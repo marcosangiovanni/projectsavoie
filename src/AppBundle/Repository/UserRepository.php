@@ -5,7 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use \DateTime;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 
 class UserRepository extends EntityRepository
 {
@@ -31,6 +31,19 @@ class UserRepository extends EntityRepository
     public function findByActiveTrainings(){
     	$now = new DateTime();
         $this->query_builder->innerJoin('u.trainings', 't', 'WITH', 't.cutoff > :current_datetime')->setParameter('current_datetime', $now->format('Y-m-d H:i:s'));;
+		return $this;
+    }
+	
+	//Set order by 
+    public function orderByPosition(Point $point){
+    	//If training is not already joined... JOIN
+		if(!in_array('t',$this->query_builder->getAllAliases())){
+			$this->query_builder->innerJoin('u.trainings', 't');
+		}
+        $this->query_builder->orderBy("st_distance_sphere(t.position,point(:x_position,:y_position))")
+        			->setParameter('x_position', $point->getX())
+					->setParameter('y_position', $point->getY())
+		;
 		return $this;
     }
 

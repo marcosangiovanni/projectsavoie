@@ -51,7 +51,7 @@ class Subscribed
     private $updated;
 
 	/** 
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="subscribed") 
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="subscribed") 
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 * @Groups({"detail"})
 	 */ 
@@ -182,10 +182,10 @@ class Subscribed
     }
 
     /**
-     * @param \AppBundle\Entity\User $user
+     * @param \AppBundle\Entity\User\User $user
      * @return Invite
      */
-    public function setUser(\AppBundle\Entity\User $user = null){
+    public function setUser(\AppBundle\Entity\User\User $user = null){
         $this->user = $user;
         return $this;
     }

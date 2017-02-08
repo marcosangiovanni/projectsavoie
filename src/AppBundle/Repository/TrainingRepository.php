@@ -5,7 +5,7 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use \DateTime;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 
 class TrainingRepository extends EntityRepository
 {
@@ -63,6 +63,14 @@ class TrainingRepository extends EntityRepository
         			->setParameter('x_position', $point->getX())
 					->setParameter('y_position', $point->getY())
 					->setParameter('max_distance', $max_distance)
+		;
+		return $this;
+    }
+
+    public function orderByPosition(Point $point){
+        $this->query_builder->orderBy("st_distance_sphere(t.position,point(:x_position,:y_position))")
+        			->setParameter('x_position', $point->getX())
+					->setParameter('y_position', $point->getY())
 		;
 		return $this;
     }

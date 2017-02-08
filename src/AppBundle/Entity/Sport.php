@@ -5,7 +5,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
+
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\MaxDepth;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -35,14 +38,16 @@ class Sport implements Translatable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
 	 * @Groups({"detail"})
-	 */
+	 * @Type("integer")
+     */
     private $id;
 
     /**
      * @Gedmo\Translatable
      * @ORM\Column(length=256)
 	 * @Groups({"detail"})
-	 */
+	 * @Type("string")
+     */
     private $title;
 
     /**
@@ -56,7 +61,8 @@ class Sport implements Translatable
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
-	 */
+	 * @Type("string")
+     */
     private $picture;
 
 	/**
@@ -71,9 +77,11 @@ class Sport implements Translatable
      */
     private $updated;
 
-	/**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="sports")
-     */
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User\User", inversedBy="sports")
+     * @ORM\JoinTable(name="ass_user_sport")
+	 * @Type("ArrayCollection")
+	 */
     private $users;
 
 	/**
@@ -97,7 +105,13 @@ class Sport implements Translatable
 	/**********************
 	 * GET METHODS        *
 	 **********************/
-    public function getId(){
+	 
+	/* generic getter method*/
+	public function __get($property){
+        return $this->$property;
+    }
+	
+	public function getId(){
         return $this->id;
     }
 
@@ -116,12 +130,21 @@ class Sport implements Translatable
 	/**********************
 	 * SET METHODS        *
 	 **********************/
-    public function setPicture($picture){
+	 
+	/* generic setter method*/
+	public function __set($property, $value){
+        $this->$property = $value;
+        return $this;
+    }
+	 
+	public function setPicture($picture){
         $this->picture = $picture;
+		return $this;
     }
 
     public function setTitle($title){
         $this->title = $title;
+		return $this;
     }
 
 	public function setPosition($position){
@@ -139,10 +162,10 @@ class Sport implements Translatable
     /**
      * Add users
      *
-     * @param \AppBundle\Entity\User $users
+     * @param \AppBundle\Entity\User\User $users
      * @return Sport
      */
-    public function addUser(\AppBundle\Entity\User $users){
+    public function addUser(\AppBundle\Entity\User\User $users){
         $this->users[] = $users;
         return $this;
     }
@@ -150,9 +173,9 @@ class Sport implements Translatable
     /**
      * Remove users
      *
-     * @param \AppBundle\Entity\User $users
+     * @param \AppBundle\Entity\User\User $users
      */
-    public function removeUser(\AppBundle\Entity\User $users){
+    public function removeUser(\AppBundle\Entity\User\User $users){
         $this->users->removeElement($users);
     }
 

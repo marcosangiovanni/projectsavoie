@@ -1,14 +1,20 @@
 <?php
 
 namespace AppBundle\Controller;
+
+use AppBundle\User\User;
 use FOS\RestBundle\Controller\FOSRestController;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use \DateTime;
 use \Exception;
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
 use JMS\Serializer\SerializationContext;
+use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerBuilder;
+
+use AppBundle\Form\UserType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,20 +25,18 @@ class UsersController extends FOSRestController
 	// [GET] /users/{id}
 	public function getUserAction($id){
 		//Find user data
-		$user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+		$user = $this->getDoctrine()->getRepository('AppBundle:User\User')->find($id);
 
 		if(!$user){
 			throw $this->createNotFoundException('No product found for id '.$id);
 		}else{
 			
-			$context = SerializationContext::create()
-							->setGroups(array('detail'))
-							->enableMaxDepthChecks();
-			
+			/* SERIALIZATION */
+			$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
 			$serializer = SerializerBuilder::create()->build();
-			
 			$jsonContent = $serializer->serialize($user, 'json', $context);
 			
+			/* JSON RESPONSE */
 			$jsonResponse = new Response($jsonContent);
     		return $jsonResponse->setStatusCode(200);
 
@@ -48,19 +52,29 @@ class UsersController extends FOSRestController
 		
 		//If we want only training creator
 		$is_trainer = $request->get('is_trainer');
-		
 		//If we want only user with active training created
 		$is_active_trainer = $request->get('is_active_trainer');
+
+		/* POSITION */		
+		//The user starting position to search for trainings
+		$x = $request->get('x');
+		$y = $request->get('y');
 		
 		/* QUERY CONSTRUCTOR */
 		//Instantiate the repositiory
-		$repository = $this->getDoctrine()->getRepository('AppBundle:User');
+		$repository = $this->getDoctrine()->getRepository('AppBundle:User\User');
 		
 		/* ADDING PARAMETER */
 		if($is_trainer){
 			$repository->findByCreatedTrainings();
 		}elseif($is_active_trainer){
 			$repository->findByActiveTrainings();
+		}
+		
+		//If a starting point it's present the order is set by training position
+		if($x && $y){
+			$point = new Point($x,$y);
+			$repository->orderByPosition($point);
 		}
 		
 		$users = $repository->getQueryBuilder()->getQuery()->getResult();
@@ -129,8 +143,94 @@ class UsersController extends FOSRestController
 	// User update
     public function putUserAction($id){
 
+		//Get the sport to update
+		$user = $this->getDoctrine()->getRepository('AppBundle:User\User')->find($id);
+		
+		//Request Object
+		$request = $this->getRequest();
+		
+		//Serialization data (serializer and context)
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$deserialization_context = DeserializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$serializer = SerializerBuilder::create()->build();
+
+		//Deserialized object with field conversion (see JMS Groups and SerializedName)
+		$obj = $serializer->deserialize($request->getContent(), 'AppBundle\Entity\User\User', 'json', $deserialization_context);
+		$objson = json_decode($serializer->serialize($obj, 'json'),true);
+		
+		//Form creation for update
+		
+		$form = $this->createForm(UserType::class, $user);
+		$form->bind($objson);
+		
+		//\Doctrine\Common\Util\Debug::dump($form->getData());
+		//exit;
+		
+		//Check FORM
+		if($form->isValid()){
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($user);
+		    $em->flush();
+		}else{
+			
+			echo get_class($form);
+			echo $form->getErrors();
+			
+			die('INVALID');
+			
+		}
+		
+		/* SERIALIZATION */
+		$jsonContent = $serializer->serialize($user, 'json', $context);
+		
+		/* JSON RESPONSE */
+		$jsonResponse = new Response($jsonContent);
+		return $jsonResponse->setStatusCode(200);
+		
+		
+		
+		
+
+
+
+
     	//Find USER By Token
     	$logged_user = $this->get('security.context')->getToken()->getUser();
+		
+		//Check is granted
+		$is_granted = $this->get('security.context')->isGranted('ROLE_USER');
+		
+		
+		$user = $this->getDoctrine()->getRepository('AppBundle:User\User')->find($id);
+		
+		$request = $this->getRequest();
+		//$inputStr = $request->request->all();
+		
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$serializer = SerializerBuilder::create()->build();
+		
+		$jsonData = $serializer->serialize($user, 'json', $context);
+		
+//		$obj = $serializer->deserialize($jsonData, 'AppBundle\Entity\User\User', 'json', DeserializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks());
+		$obj = $serializer->deserialize($jsonData, 'AppBundle\Entity\User\User', 'json');
+		
+		\Doctrine\Common\Util\Debug::dump($obj);
+		//var_dump($obj->getId());
+		exit;
+		
+
+		//$content = json_decode($jsonData,true);
+		$obj = $serializer->deserialize($jsonData, 'AppBundle:User\User', 'json');
+
+		die('r234323');
+		
+/*
+		$request = $this->getRequest();
+		$data = $request->request->all();
+    	$this->mapDataOnEntity($data, $user, array('detail'));
+*/
+		
+		die('4237384687326');
 		
 		if($logged_user->getId() != $id){
 			throw new Exception('You cant modify this user');

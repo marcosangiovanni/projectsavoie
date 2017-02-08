@@ -2,8 +2,11 @@
 namespace AppBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
+
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
+
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JMS\Serializer\Annotation\Groups;
@@ -14,6 +17,8 @@ use JMS\Serializer\Annotation\SerializedName;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 /**
  * @ORM\Table(name="training")
  * @ORM\Table(indexes={@ORM\Index(name="idx_training_position", columns={"position"})})
@@ -121,7 +126,7 @@ class Training
     private $sport;
 	
 	/**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="trainings")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="trainings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 * @MaxDepth(2)
 	 * @Groups({"detail"})
@@ -129,11 +134,6 @@ class Training
 	 */
     private $user;
 
-	/**
-     * @ORM\OneToMany(targetEntity="Invite", mappedBy="training", cascade={"remove"})
-     */	
-    private $invited;
-		
 	/**
      * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="training", cascade={"remove"})
 	 * @MaxDepth(3)
@@ -401,16 +401,16 @@ class Training
     }
 
     /**
-     * @param \AppBundle\Entity\User $user
+     * @param \AppBundle\Entity\User\User $user
      * @return Training
      */
-    public function setUser(\AppBundle\Entity\User $user = null){
+    public function setUser(\AppBundle\Entity\User\User $user = null){
         $this->user = $user;
         return $this;
     }
 
     /**
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User\User
      */
     public function getUser(){
         return $this->user;
@@ -423,30 +423,6 @@ class Training
         $this->invited = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subscribed = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-    /**
-     * @param \AppBundle\Entity\Invite $invited
-     * @return Training
-     */
-    public function addInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited[] = $invited;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Invite $invited
-     */
-    public function removeInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited->removeElement($invited);
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getInvited(){
-        return $this->invited;
-    }
-
 
     /**
      * @param \AppBundle\Entity\Subscribed $subscribed
@@ -488,4 +464,23 @@ class Training
     public function getImageFile(){
         return $this->imageFile;
     }
+	
+	
+	/* Lon lat management */
+	
+	public function setLatLng($latlng)
+    {
+        $this->setPosition(new Point($latlng['lat'], $latlng['lng']));
+        return $this;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @OhAssert\LatLng()
+     */
+    public function getLatLng()
+    {
+        return array('lat'=>$this->getPosition()->getX(),'lng'=>$this->getPosition()->getY());
+    }
+	
 }

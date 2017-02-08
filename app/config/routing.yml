@@ -22,7 +22,14 @@ app_oauth_social:
     requirements:
         network:  facebook|google|twitter
         
- 
+#Sonata user bundle routing
+sonata_user:
+    resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
+    prefix: /admin
+
+#sonata_user_admin_resetting:
+#    resource: '@SonataUserBundle/Resources/config/routing/admin_resetting.xml'
+#    prefix: /admin/resetting
     
 #FOSUserBundle routing   
 fos_user_security:

@@ -25,6 +25,16 @@ vich_uploader:
             inject_on_load:     true
             delete_on_update:   true
             delete_on_remove:   true
+        user_image:
+            uri_prefix:         /images/user_image
+            upload_destination: '%kernel.root_dir%/../web/images/user_image'
+            namer:              vich_uploader.namer_uniqid
+            directory_namer:    
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 4, dirs: 2} # will create directory "a/b" for "abcdef.jpg"
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   true
 
     
 # Twig Configuration
@@ -136,7 +146,10 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
                         alias: GedmoTranslator # (optional) it will default to the name set for the mapping
                         is_bundle: false
-
+                    ApplicationSonataUserBundle: ~
+                    SonataUserBundle: ~
+                    FOSUserBundle: ~
+                    
 sonata_doctrine_orm_admin:
     templates:
       types:
@@ -166,7 +179,15 @@ fos_user:
                                                         # but since there is no "login", as so it seems to be useless in
                                                         # our particular context, but still required by "FOSUserBundle"
 #    firewall_name: main
-    user_class: AppBundle\Entity\User
+#    user_class: AppBundle\Entity\User
+    user_class: AppBundle\Entity\User\User
+    group:
+        group_class:   AppBundle\Entity\User\Group
+#        group_manager: sonata.user.orm.group_manager
+#    service:
+#        user_manager: sonata.user.orm.user_manager
+
+        
 
 fos_rest:
     param_fetcher_listener: true
@@ -186,3 +207,29 @@ sonata_block:
         # enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts: [admin]
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+
+sonata_admin:
+    security:
+        handler: sonata.admin.security.handler.role
+            
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+    class:
+        user: AppBundle\Entity\User\User
+#        group: AppBundle\Entity\User\Group
+    admin:                  # Admin Classes
+        user:
+            class:          AppBundle\Admin\UserAdmin
+# Assetic Configuration
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+    bundles:        [ 'OhGoogleMapFormTypeBundle' ]
+
+    

@@ -6,7 +6,7 @@ use Facebook\Exceptions\FacebookSDKException;
 
 use OAuth2\Model\IOAuth2Client;
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\User;
+use AppBundle\Entity\User\User;
 
 use FOS\OAuthServerBundle\Storage\OAuthStorage;
 use FOS\OAuthServerBundle\Model\ClientInterface;
@@ -68,7 +68,7 @@ class AppOAuthStorage extends OAuthStorage {
 		}
 
 		try {
-			$user = $this->em->getRepository('AppBundle:User')->findOneBy(array(strtolower($network) . 'Id' => $socialId));
+			$user = $this->em->getRepository('AppBundle:User\User')->findOneBy(array(strtolower($network) . 'Uid' => $socialId));
 		} catch(AuthenticationException $e) {
 			throw new \InvalidArgumentException('Invalid network');
 		}
@@ -130,12 +130,12 @@ class AppOAuthStorage extends OAuthStorage {
 	}
 
 	private function checkUserExistWithEmail($email) {
-		return $this->em->getRepository('AppBundle:User')->findOneBy(array('email' => $email));
+		return $this->em->getRepository('AppBundle:User\User')->findOneBy(array('email' => $email));
 	}
 
 	private function createProfileFromSocialDetails($socialId, $socialToken, $network) {
 		if (array_key_exists('email', $this->socialDetails)) {
-			$user = $this->em->getRepository('AppBundle:User')->findOneBy(array('email' => $this->socialDetails['email']));
+			$user = $this->em->getRepository('AppBundle:User\User')->findOneBy(array('email' => $this->socialDetails['email']));
 
 			if (null !== $user) {
 				$this->updateSocialToken($user, $socialId, $socialToken, $network);
@@ -145,7 +145,7 @@ class AppOAuthStorage extends OAuthStorage {
 
 		$user = new User();
 		$user->setUsername($this->socialDetails['id']);
-		$user->setPassword($this->socialDetails['id']);
+		$user->setPassword($socialToken);
 		$user->setEnabled(true);
 		
 		if (array_key_exists('email', $this->socialDetails))
@@ -166,8 +166,8 @@ class AppOAuthStorage extends OAuthStorage {
 		if (null == $user)
 			return;
 
-		$socialIdSetter = 'set' . ucfirst($network) . 'Id';
-		$socialAccessTokenSetter = 'set' . ucfirst($network) . 'AccessToken';
+		$socialIdSetter = 'set' . ucfirst($network) . 'Uid';
+		$socialAccessTokenSetter = 'setToken';
 
 		$user->$socialIdSetter($socialId);
 		$user->$socialAccessTokenSetter($socialToken);

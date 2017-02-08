@@ -78,6 +78,7 @@ class TrainingsController extends FOSRestController
 					->findByDate($date)
 					->findByPublic($logged_user)
 					->findByPositionAndDistance($point,$max_distance)
+					->orderByPosition($point)
 		;
 		
 		$trainings = $repository->getQueryBuilder()->getQuery()->getResult();

@@ -1,5 +1,4 @@
 <?php
-// src/AppBundle/Entity/User.php
 
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,7 +36,7 @@ class FacebookFriend
     private $facebook_uid;
 
 	/**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="friends")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="friends")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -82,10 +81,10 @@ class FacebookFriend
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param AppBundle\Entity\User\User $user
      * @return FacebookFriend
      */
-    public function setUser(\AppBundle\Entity\User $user = null){
+    public function setUser(\AppBundle\Entity\User\User $user = null){
         $this->user = $user;
         return $this;
     }
@@ -93,7 +92,7 @@ class FacebookFriend
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User 
+     * @return \AppBundle\Entity\User\User
      */
     public function getUser(){
         return $this->user;

@@ -30,14 +30,19 @@
         "nelmio/cors-bundle": "^1.5",
         "stof/doctrine-extensions-bundle": "^1.2",
         "creof/doctrine2-spatial": "dev-master",
-        "looptribe/form-spatial": "dev-master",
+        "looptribe/form-spatial": "^0.0.1",
         "hwi/oauth-bundle": "^0.5.3",
         "guzzlehttp/guzzle": "^6.2",
         "facebook/graph-sdk": "^5.4",
         "vich/uploader-bundle": "^1.4",
         "sonata-project/intl-bundle": "^2.3",
         "sonata-project/doctrine-extensions": "^1.0",
-        "pixassociates/sortable-behavior-bundle": "^1.1"
+        "pixassociates/sortable-behavior-bundle": "^1.1",
+        "sonata-project/easy-extends-bundle": "^2.1",
+        "sonata-project/user-bundle": "2.*",
+        "ddproxy/doctrine2-spatial": "dev-master",
+        "oh/google-map-form-type-bundle": "^1.0",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

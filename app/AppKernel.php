@@ -16,7 +16,10 @@ class AppKernel extends Kernel
         $bundles = array(
             //Bundle per la gestione degli utenti loggati
             new FOS\UserBundle\FOSUserBundle(),
-            
+            //Bundle for admin user management
+			new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+			new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
+
 			//Symfony original installation
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
@@ -26,6 +29,9 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             
+			//Assetc managemnt
+			new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+			
 			//Main App
             new AppBundle\AppBundle(),
 
@@ -34,8 +40,10 @@ class AppKernel extends Kernel
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             
-			// Sonata internazionalization bundle
+			// Sonata internationalization bundle
 			new Sonata\IntlBundle\SonataIntlBundle(),
+			//Sonata easy extend used to extend sonata bundles
+			new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
 
             // Storage and SonataAdminBundle
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
@@ -56,6 +64,7 @@ class AppKernel extends Kernel
 			
 			//Gestione dei form con dati spazioni per inserimento con gmaps
 			new Looptribe\FormSpatialBundle\LooptribeFormSpatialBundle(),
+			new Oh\GoogleMapFormTypeBundle\OhGoogleMapFormTypeBundle(),
 			
 			//Per FB Login
 			new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),

@@ -1,20 +1,24 @@
 <?php
-// src/AppBundle/Entity/User.php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\User;
+use Sonata\UserBundle\Entity\BaseUser as BaseUser;
 
-use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\MaxDepth;
 use JMS\Serializer\Annotation\SerializedName;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="fos_user_user")
+ * @Vich\Uploadable
  */
 class User extends BaseUser
 {
@@ -23,89 +27,111 @@ class User extends BaseUser
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
 	 * @Groups({"detail"})
+	 * @Type("integer")
      */
     protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook_id", type="string", nullable=true)
-     */
-    private $facebookId;
-	
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-     */
-    private $facebookAccessToken;
-	
-	/**
-     * @ORM\Column(type="string", length=100, nullable=true)
-	 * @Groups({"detail"})
-	 */
-    private $name;
+
+	/*************************
+	 * NEW DEFINED FIELDS    *
+	 *************************/
 
 	/**
-     * @ORM\Column(type="string", length=100, nullable=true)
-	 * @Groups({"detail"})
-	 */
-    private $surname;
-
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-	 * @Groups({"detail"})
-	 */
-    private $phone;
-
+     * @Vich\UploadableField(mapping="training_image", fileNameProperty="picture")
+     * @var File
+     */
+    private $imageFile;
+	
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     private $video;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
     private $city;
 
+
+	/***********************************************
+	 * FIELDS INHERITED FROM SonataUserBundle      *
+	 * ADDED IN THIS PLACE TO DEFINE SERIALIZATION *
+	 ***********************************************/
+
     /**
-     * @ORM\Column(type="date", nullable=true)
 	 * @Groups({"detail"})
+	 * @Type("string")
 	 */
-    private $dob;
-	
-	/**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
+    protected $firstname;
 
     /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updated;
+	 * @Groups({"detail"})
+	 * @Type("string")
+	 */
+    protected $lastname;
+
+    /**
+	 * @Groups({"detail"})
+	 * @Type("string")
+	 */
+    protected $email;
+
+    /**
+	 * @Groups({"detail"})
+	 * @Type("string")
+	 */
+    protected $phone;
+
+    /**
+	 * @Groups({"detail"})
+	 * @Type("string")
+	 */
+    protected $gender;
+
+    /**
+	 * @Groups({"detail"})
+	 * @Type("DateTime<'Y-m-d'>")
+	 */
+    protected $dateOfBirth;
+
+    /**
+	 * @Groups({"detail"})
+	 * @Type("string")
+	 */
+	protected $facebookUid;
+
+
+
+	/**********************************
+	 * FIELDS TO DEFINE RELATIONSHIPS *
+	 **********************************/
 
 	/**
-     * @ORM\OneToMany(targetEntity="FacebookFriend", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacebookFriend", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("facebook_friends")
 	 * @Groups({"detail"})
+	 * @Type("ArrayCollection")
 	 */
     private $friends;
-	
+
 	/**
-     * @ORM\ManyToMany(targetEntity="Sport", inversedBy="users")
-     * @ORM\JoinTable(name="ass_user_sport")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Sport", mappedBy="users")
+	 * @SerializedName("sports")
+	 * @MaxDepth(2)
 	 * @Groups({"detail"})
-     */
+	 * @Type("ArrayCollection")
+	 */
     private $sports;
 	
 	/**
@@ -122,31 +148,31 @@ class User extends BaseUser
 	 * @Groups({"detail"})
      * @MaxDepth(2)
 	 * @SerializedName("friends")
+	 * @Type("ArrayCollection")
      */
     private $myFriends;
 
 	/**
-     * @ORM\OneToMany(targetEntity="Invite", mappedBy="user", cascade={"remove"})
-	 */
-    private $invited;
-
-	/**
      * Variable to store trainings to whom the user is subscribed
-     * @ORM\OneToMany(targetEntity="Subscribed", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Subscribed", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("associated_trainings")
 	 * @Groups({"detail"})
-	 */
+	 * @Type("ArrayCollection")
+     */
     private $subscribed;
 
 	/**
      * Variable to store trainings
-	 * @ORM\OneToMany(targetEntity="Training", mappedBy="user", cascade={"remove"})
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Training", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("created_trainings")
 	 * @Groups({"detail"})
 	 * @ORM\OrderBy({"start" = "DESC"})
-	 */
+	 * @Type("ArrayCollection")
+     */
     private $trainings;
-    
+	
+	
+	
     public function __construct(){
         parent::__construct();
 		$this->friends = new ArrayCollection();
@@ -156,37 +182,23 @@ class User extends BaseUser
         $this->invited = new ArrayCollection();
         $this->subcribed = new ArrayCollection();
     }
-	
+
+    /**
+     * Get id
+     *
+     * @return int $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
 	/**********************
 	 * SET METHODS        *
 	 **********************/
-    public function setName($name){
-        $this->name = $name;
-        return $this;
-    }
-	
-    public function setfacebookID($facebookID){
-        $this->facebookId = $facebookID;
-        return $this;
-    }
-	
-    public function setFacebookAccessToken($access_token){
-        $this->facebookAccessToken = $access_token;
-        return $this;
-    }
-	
-    public function setSurname($surname){
-        $this->surname = $surname;
-        return $this;
-    }
-    
-    public function setPhone($phone){
-        $this->phone = $phone;
-        return $this;
-    }
-	
-    public function setPicture($picture){
+
+	public function setPicture($picture){
         $this->picture = $picture;
         return $this;
     }
@@ -206,31 +218,12 @@ class User extends BaseUser
         return $this;
     }
 
-
+    
 	/**********************
 	 * GET METHODS        *
 	 **********************/
-    public function getName(){
-        return $this->name;
-    }
-
-    public function getfacebookId(){
-        return $this->facebookID;
-    }
-
-    public function getFacebookAccessToken(){
-        return $this->facebookAccessToken;
-    }
-	
-    public function getSurname(){
-        return $this->surname;
-    }
-
-    public function getPhone(){
-        return $this->phone;
-    }
-
-    public function getPicture(){
+	 
+	public function getPicture(){
         return $this->picture;
     }
 
@@ -322,10 +315,10 @@ class User extends BaseUser
     /**
      * Add friendsWithMe
      *
-     * @param \AppBundle\Entity\User $friendsWithMe
+     * @param \User $friendsWithMe
      * @return User
      */
-    public function addFriendsWithMe(\AppBundle\Entity\User $friendsWithMe){
+    public function addFriendsWithMe(User $friendsWithMe){
         $this->friendsWithMe[] = $friendsWithMe;
         return $this;
     }
@@ -333,9 +326,9 @@ class User extends BaseUser
     /**
      * Remove friendsWithMe
      *
-     * @param \AppBundle\Entity\User $friendsWithMe
+     * @param \User $friendsWithMe
      */
-    public function removeFriendsWithMe(\AppBundle\Entity\User $friendsWithMe){
+    public function removeFriendsWithMe(User $friendsWithMe){
         $this->friendsWithMe->removeElement($friendsWithMe);
     }
 
@@ -351,10 +344,10 @@ class User extends BaseUser
     /**
      * Add myFriends
      *
-     * @param \AppBundle\Entity\User $myFriends
+     * @param \User $myFriends
      * @return User
      */
-    public function addMyFriend(\AppBundle\Entity\User $myFriends){
+    public function addMyFriend(User $myFriends){
         $this->myFriends[] = $myFriends;
         return $this;
     }
@@ -362,9 +355,9 @@ class User extends BaseUser
     /**
      * Remove myFriends
      *
-     * @param \AppBundle\Entity\User $myFriends
+     * @param \AppBundle\Entity\User\User $myFriends
      */
-    public function removeMyFriend(\AppBundle\Entity\User $myFriends){
+    public function removeMyFriend(\AppBundle\Entity\User\User $myFriends){
         $this->myFriends->removeElement($myFriends);
     }
 
@@ -420,29 +413,6 @@ class User extends BaseUser
 	 ***************************/
 	 
     /**
-     * @param \AppBundle\Entity\Invite $invited
-     * @return User
-     */
-    public function addInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited[] = $invited;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Invite $invited
-     */
-    public function removeInvited(\AppBundle\Entity\Invite $invited){
-        $this->invited->removeElement($invited);
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getInvited(){
-        return $this->invited;
-    }
-
-    /**
      * @param \AppBundle\Entity\Subscribed $subscribed
      * @return User
      */
@@ -487,4 +457,29 @@ class User extends BaseUser
     public function getTrainings(){
         return $this->trainings;
     }
+
+
+	/***************************
+	 * IMAGE UPLOAD MANAGEMENT *
+	 ***************************/
+	
+	/*
+	 *  Doctrine only upload file if any field is modified 
+	 */
+	public function setImageFile(File $image = null){
+        $this->imageFile = $image;
+        if ($image) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(){
+        return $this->imageFile;
+    }
+	
+
 }
