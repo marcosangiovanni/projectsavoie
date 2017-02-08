@@ -2,18 +2,7 @@
 
 namespace AppBundle\Controller;
 
-
-
-
-
 use AppBundle\User\User;
-
-
-
-
-
-
-
 use FOS\RestBundle\Controller\FOSRestController;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -22,7 +11,10 @@ use \Exception;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
 use JMS\Serializer\SerializationContext;
+use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerBuilder;
+
+use AppBundle\Form\UserType;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -151,6 +143,57 @@ class UsersController extends FOSRestController
 	// User update
     public function putUserAction($id){
 
+		//Get the sport to update
+		$user = $this->getDoctrine()->getRepository('AppBundle:User\User')->find($id);
+		
+		//Request Object
+		$request = $this->getRequest();
+		
+		//Serialization data (serializer and context)
+		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$deserialization_context = DeserializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
+		$serializer = SerializerBuilder::create()->build();
+
+		//Deserialized object with field conversion (see JMS Groups and SerializedName)
+		$obj = $serializer->deserialize($request->getContent(), 'AppBundle\Entity\User\User', 'json', $deserialization_context);
+		$objson = json_decode($serializer->serialize($obj, 'json'),true);
+		
+		//Form creation for update
+		
+		$form = $this->createForm(UserType::class, $user);
+		$form->bind($objson);
+		
+		//\Doctrine\Common\Util\Debug::dump($form->getData());
+		//exit;
+		
+		//Check FORM
+		if($form->isValid()){
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($user);
+		    $em->flush();
+		}else{
+			
+			echo get_class($form);
+			echo $form->getErrors();
+			
+			die('INVALID');
+			
+		}
+		
+		/* SERIALIZATION */
+		$jsonContent = $serializer->serialize($user, 'json', $context);
+		
+		/* JSON RESPONSE */
+		$jsonResponse = new Response($jsonContent);
+		return $jsonResponse->setStatusCode(200);
+		
+		
+		
+		
+
+
+
+
     	//Find USER By Token
     	$logged_user = $this->get('security.context')->getToken()->getUser();
 		
@@ -168,9 +211,11 @@ class UsersController extends FOSRestController
 		
 		$jsonData = $serializer->serialize($user, 'json', $context);
 		
+//		$obj = $serializer->deserialize($jsonData, 'AppBundle\Entity\User\User', 'json', DeserializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks());
 		$obj = $serializer->deserialize($jsonData, 'AppBundle\Entity\User\User', 'json');
 		
-		var_dump($jsonData);
+		\Doctrine\Common\Util\Debug::dump($obj);
+		//var_dump($obj->getId());
 		exit;
 		
 

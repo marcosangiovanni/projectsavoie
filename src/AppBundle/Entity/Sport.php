@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\MaxDepth;
 
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -79,7 +80,6 @@ class Sport implements Translatable
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User\User", inversedBy="sports")
      * @ORM\JoinTable(name="ass_user_sport")
-	 * @Groups({"detail"})
 	 * @Type("ArrayCollection")
 	 */
     private $users;

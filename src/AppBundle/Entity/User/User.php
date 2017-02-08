@@ -127,7 +127,11 @@ class User extends BaseUser
 
 	/**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Sport", mappedBy="users")
-     */
+	 * @SerializedName("sports")
+	 * @MaxDepth(2)
+	 * @Groups({"detail"})
+	 * @Type("ArrayCollection")
+	 */
     private $sports;
 	
 	/**

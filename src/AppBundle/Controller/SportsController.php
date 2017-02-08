@@ -70,6 +70,16 @@ class SportsController extends FOSRestController
 		$obj = $serializer->deserialize($request->getContent(), 'AppBundle\Entity\Sport', 'json', $deserialization_context);
 		$objson = json_decode($serializer->serialize($obj, 'json'),true);
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//Form creation for update
 		$form = $this->createForm(SportType::class, $sport);
 		$form->bind($objson);
