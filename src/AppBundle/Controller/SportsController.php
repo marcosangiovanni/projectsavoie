@@ -12,6 +12,10 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
+
+
+use AppBundle\Util\ObjectMerger;
+
 class SportsController extends FOSRestController
 {
 
@@ -64,32 +68,18 @@ class SportsController extends FOSRestController
 		//Serialization data (serializer and context)
 		$context = SerializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
 		$deserialization_context = DeserializationContext::create()->setGroups(array('detail'))->enableMaxDepthChecks();
-		$serializer = SerializerBuilder::create()->build();
-
+		//Serializer and builder
+		$builder = SerializerBuilder::create();
+		$serializer = $builder->build();
+		
 		//Deserialized object with field conversion (see JMS Groups and SerializedName)
 		$obj = $serializer->deserialize($request->getContent(), 'AppBundle\Entity\Sport', 'json', $deserialization_context);
-		$objson = json_decode($serializer->serialize($obj, 'json'),true);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		//Form creation for update
-		$form = $this->createForm(SportType::class, $sport);
-		$form->bind($objson);
-		
-		//Check FORM
-		if($form->isValid()){
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($sport);
-		    $em->flush();
-		}
+		//Merging received data in entity
+		$em = $this->getDoctrine()->getManager();
+		$sport = ObjectMerger::mergeEntities($em, $sport, $obj);	
+
+		$em->persist($sport);
+	    $em->flush();
 		
 		/* SERIALIZATION */
 		$jsonContent = $serializer->serialize($sport, 'json', $context);

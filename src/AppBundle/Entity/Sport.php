@@ -105,7 +105,13 @@ class Sport implements Translatable
 	/**********************
 	 * GET METHODS        *
 	 **********************/
-    public function getId(){
+	 
+	/* generic getter method*/
+	public function __get($property){
+        return $this->$property;
+    }
+	
+	public function getId(){
         return $this->id;
     }
 
@@ -124,7 +130,14 @@ class Sport implements Translatable
 	/**********************
 	 * SET METHODS        *
 	 **********************/
-    public function setPicture($picture){
+	 
+	/* generic setter method*/
+	public function __set($property, $value){
+        $this->$property = $value;
+        return $this;
+    }
+	 
+	public function setPicture($picture){
         $this->picture = $picture;
 		return $this;
     }
