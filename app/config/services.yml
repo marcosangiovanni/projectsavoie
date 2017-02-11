@@ -17,26 +17,26 @@ services:
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
             
-    admin.facebook_friend:
-        class: AppBundle\Admin\FacebookFriendAdmin
-        arguments: [~, AppBundle\Entity\FacebookFriend, ~]
+    admin.position:
+        class: AppBundle\Admin\PositionAdmin
+        arguments: [~, AppBundle\Entity\Position, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: FacebookFriend }
-
-    admin.training:
-        class: AppBundle\Admin\TrainingAdmin
-        arguments: [~, AppBundle\Entity\Training, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, label: Training }
+            - { name: sonata.admin, manager_type: orm, label: Position }
                         
-    admin.sport:
-        class: AppBundle\Admin\SportAdmin
+    admin.company:
+        class: AppBundle\Admin\CompanyAdmin
+        arguments: [~, AppBundle\Entity\Company, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Sport }
-        arguments:
-            - ~
-            - AppBundle\Entity\Sport
-            - 'PixSortableBehaviorBundle:SortableAdmin'
+            - { name: sonata.admin, manager_type: orm, label: Company }
+                        
+    api_authentication_entry_point:
+         class: AppBundle\Entity\Auth\ApiAuthenticationEntryPoint
+         arguments: [ api ]
+         
+    after_position_save:
+        class: AppBundle\EventListener\PositionManager
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
             
 #Api entrypoint                        
     api_authentication_entry_point:

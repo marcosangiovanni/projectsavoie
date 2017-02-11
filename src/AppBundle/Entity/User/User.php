@@ -32,155 +32,45 @@ class User extends BaseUser
     protected $id;
 
 
-	/*************************
-	 * NEW DEFINED FIELDS    *
-	 *************************/
-
-	/**
-     * @Vich\UploadableField(mapping="training_image", fileNameProperty="picture")
-     * @var File
-     */
-    private $imageFile;
-	
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    private $picture;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    private $video;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    private $city;
-
-
-	/***********************************************
-	 * FIELDS INHERITED FROM SonataUserBundle      *
-	 * ADDED IN THIS PLACE TO DEFINE SERIALIZATION *
-	 ***********************************************/
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    protected $firstname;
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    protected $lastname;
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    protected $email;
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    protected $phone;
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-    protected $gender;
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("DateTime<'Y-m-d'>")
-	 */
-    protected $dateOfBirth;
-
-    /**
-	 * @Groups({"detail"})
-	 * @Type("string")
-	 */
-	protected $facebookUid;
-
-
-
 	/**********************************
 	 * FIELDS TO DEFINE RELATIONSHIPS *
 	 **********************************/
 
 	/**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacebookFriend", mappedBy="user", cascade={"remove"})
-	 * @SerializedName("facebook_friends")
+     * Variable to store positions
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Position", mappedBy="user", cascade={"remove"})
+	 * @SerializedName("positions")
 	 * @Groups({"detail"})
-	 * @Type("ArrayCollection")
-	 */
-    private $friends;
-
-	/**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Sport", mappedBy="users")
-	 * @SerializedName("sports")
-	 * @MaxDepth(2)
-	 * @Groups({"detail"})
-	 * @Type("ArrayCollection")
-	 */
-    private $sports;
-	
-	/**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="myFriends")
-	 */
-    private $friendsWithMe;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
-     * @ORM\JoinTable(name="ass_user_friend",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
-     *      )
-	 * @Groups({"detail"})
-     * @MaxDepth(2)
-	 * @SerializedName("friends")
+	 * @ORM\OrderBy({"created_at" = "DESC"})
 	 * @Type("ArrayCollection")
      */
-    private $myFriends;
-
+    private $positions;
+	
 	/**
-     * Variable to store trainings to whom the user is subscribed
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Subscribed", mappedBy="user", cascade={"remove"})
-	 * @SerializedName("associated_trainings")
+     * Variable to store lastpositions
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Lastposition", mappedBy="user", cascade={"remove"})
+	 * @SerializedName("lastpositions")
 	 * @Groups({"detail"})
+	 * @ORM\OrderBy({"created_at" = "DESC"})
 	 * @Type("ArrayCollection")
      */
-    private $subscribed;
-
+    private $lastpositions;
+	
 	/**
-     * Variable to store trainings
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Training", mappedBy="user", cascade={"remove"})
-	 * @SerializedName("created_trainings")
+     * Variable to store stops
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stop", mappedBy="user", cascade={"remove"})
+	 * @SerializedName("stops")
 	 * @Groups({"detail"})
-	 * @ORM\OrderBy({"start" = "DESC"})
+	 * @ORM\OrderBy({"created_at" = "DESC"})
 	 * @Type("ArrayCollection")
      */
-    private $trainings;
-	
-	
+    private $stops;
 	
     public function __construct(){
         parent::__construct();
-		$this->friends = new ArrayCollection();
-		$this->sports = new ArrayCollection();
-        $this->friendsWithMe = new ArrayCollection();
-        $this->myFriends = new ArrayCollection();
-        $this->invited = new ArrayCollection();
-        $this->subcribed = new ArrayCollection();
+		$this->positions = new ArrayCollection();
+		$this->lastpositions = new ArrayCollection();
+        $this->stops = new ArrayCollection();
     }
 
     /**
@@ -188,80 +78,32 @@ class User extends BaseUser
      *
      * @return int $id
      */
-    public function getId()
-    {
+    public function getId(){
         return $this->id;
     }
 
-
-	/**********************
-	 * SET METHODS        *
-	 **********************/
-
-	public function setPicture($picture){
-        $this->picture = $picture;
-        return $this;
-    }
-	
-    public function setVideo($video){
-        $this->video = $video;
-        return $this;
-    }
-	
-    public function setCity($city){
-        $this->city = $city;
-        return $this;
-    }
-	
-    public function setDob($dob){
-        $this->dob = $dob;
-        return $this;
-    }
-
-    
-	/**********************
-	 * GET METHODS        *
-	 **********************/
-	 
-	public function getPicture(){
-        return $this->picture;
-    }
-
-    public function getVideo(){
-        return $this->video;
-    }
-
-    public function getCity(){
-        return $this->city;
-    }
-
-    public function getDob(){
-        return $this->dob;
-    }
-
-
 	/*************************
-	 * FB FRIENDS MANAGEMENT *
+	 * POSITIONS  MANAGEMENT *
 	 *************************/
 
     /**
-     * Add friends
+     * Add positions
      *
-     * @param \AppBundle\Entity\FacebookFriend $friends
+     * @param \AppBundle\Entity\Position $position
      * @return User
      */
-    public function addFriend(\AppBundle\Entity\FacebookFriend $friends){
-        $this->friends[] = $friends;
+    public function addPosition(\AppBundle\Entity\Position $position){
+        $this->position[] = $position;
         return $this;
     }
 
     /**
      * Remove friends
      *
-     * @param \AppBundle\Entity\FacebookFriend $friends
+     * @param \AppBundle\Entity\Position $position
      */
-    public function removeFriend(\AppBundle\Entity\FacebookFriend $friends){
-        $this->friends->removeElement($friends);
+    public function removePosition(\AppBundle\Entity\Position $position){
+        $this->position->removeElement($position);
     }
 
     /**
@@ -269,106 +111,82 @@ class User extends BaseUser
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFriends(){
-        return $this->friends;
+    public function getPositions(){
+        return $this->position;
     }
 
 
-	/********************
-	 * SPORT MANAGEMENT *
-	 ********************/
+	/*****************************
+	 * LASTPOSITIONS  MANAGEMENT *
+	 *****************************/
 
     /**
-     * Add sports
+     * Add lastposition
      *
-     * @param \AppBundle\Entity\Sport $sports
+     * @param \AppBundle\Entity\Lastposition $lastposition
      * @return User
      */
-    public function addSport(\AppBundle\Entity\Sport $sports){
-		$this->sports[] = $sports;
+    public function addLastposition(\AppBundle\Entity\Lastposition $lastposition){
+        $this->lastposition[] = $lastposition;
         return $this;
     }
 
     /**
-     * Remove sports
+     * Remove friends
      *
-     * @param \AppBundle\Entity\Sport $sports
+     * @param \AppBundle\Entity\Lastposition $lastposition
      */
-    public function removeSport(\AppBundle\Entity\Sport $sports){
-        $this->sports->removeElement($sports);
+    public function removeLastposition(\AppBundle\Entity\Lastposition $lastposition){
+        $this->lastposition->removeElement($lastposition);
     }
 
     /**
-     * Get sports
+     * Get friends
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getSports(){
-        return $this->sports;
+    public function getLastpositions(){
+        return $this->lastposition;
     }
 
 
-	/**************************
-	 * APP FRIENDS MANAGEMENT *
-	 **************************/
+	/*********************
+	 * STOPS  MANAGEMENT *
+	 *********************/
 
     /**
-     * Add friendsWithMe
+     * Add stop
      *
-     * @param \User $friendsWithMe
+     * @param \AppBundle\Entity\Stop $stop
      * @return User
      */
-    public function addFriendsWithMe(User $friendsWithMe){
-        $this->friendsWithMe[] = $friendsWithMe;
+    public function addStop(\AppBundle\Entity\Stop $stop){
+        $this->stop[] = $stop;
         return $this;
     }
 
     /**
-     * Remove friendsWithMe
+     * Remove friends
      *
-     * @param \User $friendsWithMe
+     * @param \AppBundle\Entity\Stop $stop
      */
-    public function removeFriendsWithMe(User $friendsWithMe){
-        $this->friendsWithMe->removeElement($friendsWithMe);
+    public function removeStop(\AppBundle\Entity\Stop $stop){
+        $this->stop->removeElement($stop);
     }
 
     /**
-     * Get friendsWithMe
+     * Get friends
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getFriendsWithMe(){
-        return $this->friendsWithMe;
+    public function getStops(){
+        return $this->stop;
     }
 
-    /**
-     * Add myFriends
-     *
-     * @param \User $myFriends
-     * @return User
-     */
-    public function addMyFriend(User $myFriends){
-        $this->myFriends[] = $myFriends;
-        return $this;
-    }
 
-    /**
-     * Remove myFriends
-     *
-     * @param \AppBundle\Entity\User\User $myFriends
-     */
-    public function removeMyFriend(\AppBundle\Entity\User\User $myFriends){
-        $this->myFriends->removeElement($myFriends);
-    }
 
-    /**
-     * Get myFriends
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMyFriends(){
-        return $this->myFriends;
-    }
+
+
 
 
 	/****************************
@@ -407,79 +225,5 @@ class User extends BaseUser
         return $this;
     }
 
-
-	/***************************
-	 * RELATIONSHIP MANAGEMENT *
-	 ***************************/
-	 
-    /**
-     * @param \AppBundle\Entity\Subscribed $subscribed
-     * @return User
-     */
-    public function addSubscribed(\AppBundle\Entity\Subscribed $subscribed){
-        $this->subscribed[] = $subscribed;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Subscribed $subscribed
-     */
-    public function removeSubscribed(\AppBundle\Entity\Subscribed $subscribed){
-        $this->subscribed->removeElement($subscribed);
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSubscribed(){
-        return $this->subscribed;
-    }
-	
-    /**
-     * @param \AppBundle\Entity\Training $training
-     * @return User
-     */
-    public function addTraining(\AppBundle\Entity\Training $training){
-        $this->trainings[] = $training;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Training $training
-     */
-    public function removeTraining(\AppBundle\Entity\Training $training){
-        $this->trainings->removeElement($training);
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTrainings(){
-        return $this->trainings;
-    }
-
-
-	/***************************
-	 * IMAGE UPLOAD MANAGEMENT *
-	 ***************************/
-	
-	/*
-	 *  Doctrine only upload file if any field is modified 
-	 */
-	public function setImageFile(File $image = null){
-        $this->imageFile = $image;
-        if ($image) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-        return $this;
-    }
-
-    /**
-     * @return File|null
-     */
-    public function getImageFile(){
-        return $this->imageFile;
-    }
-	
 
 }
