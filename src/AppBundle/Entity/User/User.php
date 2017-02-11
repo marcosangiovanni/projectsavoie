@@ -41,7 +41,7 @@ class User extends BaseUser
 	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Position", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("positions")
 	 * @Groups({"detail"})
-	 * @ORM\OrderBy({"created_at" = "DESC"})
+	 * @ORM\OrderBy({"created" = "DESC"})
 	 * @Type("ArrayCollection")
      */
     private $positions;
@@ -51,7 +51,7 @@ class User extends BaseUser
 	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Lastposition", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("lastpositions")
 	 * @Groups({"detail"})
-	 * @ORM\OrderBy({"created_at" = "DESC"})
+	 * @ORM\OrderBy({"created" = "DESC"})
 	 * @Type("ArrayCollection")
      */
     private $lastpositions;
@@ -61,7 +61,7 @@ class User extends BaseUser
 	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stop", mappedBy="user", cascade={"remove"})
 	 * @SerializedName("stops")
 	 * @Groups({"detail"})
-	 * @ORM\OrderBy({"created_at" = "DESC"})
+	 * @ORM\OrderBy({"created" = "DESC"})
 	 * @Type("ArrayCollection")
      */
     private $stops;
