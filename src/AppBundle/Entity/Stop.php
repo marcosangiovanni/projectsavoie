@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
+
 /**
  * @ORM\Table(name="stop")
  * @ORM\Table(indexes={@ORM\Index(name="idx_log_stop", columns={"position"})})
@@ -219,6 +222,24 @@ class Stop
      */
     public function getUser(){
         return $this->user;
+    }
+
+	/* Lon lat management */
+	
+	public function setLatLng($latlng)
+    {
+        $this->setPosition(new Point($latlng['lat'], $latlng['lng']));
+        return $this;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @OhAssert\LatLng()
+     */
+    public function getLatLng(){
+    	if($this->getPosition()){
+        	return array('lat'=>$this->getPosition()->getX(),'lng'=>$this->getPosition()->getY());
+		}
     }
 
 }

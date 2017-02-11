@@ -8,11 +8,13 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use AppBundle\Util\Utility as Utility;
 
-class PositionAdmin extends Admin
+class StopAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper){
         $formMapper	->add('user', null, array('attr' => array('style' => Utility::FIELD_STYLE_MEDIUM)))
-					->add('datetime','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
+					->add('start','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
+					->add('stop','sonata_type_datetime_picker', array('attr' => array('style' => Utility::FIELD_STYLE_SMALL),'format' => Utility::DATE_FORMAT_DATETIME))
+					->add('duration')					
 					->add('latlng','oh_google_maps',array('label' => 'Insert address','map_width' => 500),array())
 		;
     }
@@ -24,9 +26,10 @@ class PositionAdmin extends Admin
              												  ), 
              												  'entity',array(
 														                'class' => 'AppBundle\Entity\User\User',
-														                'choice_label' => 'username'
+														                'choice_label' => 'id'
 															  )
 						)
+						//->add('duration','sonata_type_filter_number')
 						->add('datetime', 'doctrine_orm_date_range', array('field_type'=>'sonata_type_date_range_picker'), null, array('format' => Utility::DATE_FORMAT_DATE))
 		;
     }
@@ -38,7 +41,9 @@ class PositionAdmin extends Admin
             				'property' 	=> 	'name',
         				)
 					)
-					->addIdentifier('datetime')
+					->addIdentifier('start')
+					->addIdentifier('stop')
+					->addIdentifier('duration')					
 					->addIdentifier('_action', 'actions', array(
 			            'actions' => array(
 			                'edit' => array(),
