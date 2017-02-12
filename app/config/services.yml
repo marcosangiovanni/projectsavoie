@@ -23,6 +23,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Company }
                         
+    admin.visit:
+        class: AppBundle\Admin\VisitAdmin
+        arguments: [~, AppBundle\Entity\Visit, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Visit }
+                        
     admin.position:
         class: AppBundle\Admin\PositionAdmin
         arguments: [~, AppBundle\Entity\Position, ~]

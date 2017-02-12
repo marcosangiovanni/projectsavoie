@@ -35,6 +35,11 @@ class Company
     private $position;
 
 	/**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visit", mappedBy="company")
+     */	
+    private $visits;
+	
+	/**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */

@@ -5,6 +5,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use AppBundle\Entity\Stop;
 use AppBundle\Entity\Position;
 use AppBundle\Entity\Lastposition;
+use AppBundle\Entity\Visit;
 
 class PositionManager
 {
@@ -40,7 +41,7 @@ class PositionManager
 			$query = $repository->createQueryBuilder('l')
 
 					//Select fields	
-    				->select("st_distance_sphere(l.position,point(:x_position,:y_position)) as distance_in_meters")
+    				->select("st_distance_sphere(l.position,point(:y_position,:x_position)) as distance_in_meters")
 
 					//Filtering conditions    	
     				->where('l.id = :lastposition_id')
@@ -83,7 +84,38 @@ class PositionManager
 					//Set stop id to nex get
 					$lastposition->setStopId($stop->getId());
 					$em->persist($lastposition);
-
+					
+					//New Stop creation. I check if this stop can be considered as a visit to a company.
+					
+						// Query creation with filters
+						$repository = $em->getRepository('AppBundle:Company');
+						$query = $repository->createQueryBuilder('c')
+	
+						//Select fields	
+	    				->select("c.id,st_distance_sphere(c.position,point(:y_position,:x_position)) as distance_in_meters")
+	
+						//Filtering conditions    	
+	    				->where("st_distance_sphere(c.position,point(:y_position,:x_position)) < 100")
+	
+						->setParameter('x_position', $position->getPosition()->getX())
+						->setParameter('y_position', $position->getPosition()->getY())
+						
+	    				->getQuery();
+					
+						$companies = $query->getResult();
+						foreach ($companies as $key => $company) {
+							
+							//var_dump($company);
+							//exit;
+							//$user = $em->getRepository('AppBundle:User\User')->find($position->getUser()->getId());
+							$comp = $em->getRepository('AppBundle:Company')->find($company['id']);
+							
+							$v = new Visit();
+							$v->setStop($stop);
+							$v->setCompany($comp);
+							$v->setDistance($company['distance_in_meters']);
+							$em->persist($v);
+						}
 				}
 			}else{
 				//If distance is greater than N I update last position and i clean stop id

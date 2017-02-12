@@ -10,11 +10,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 
 /**
- * @ORM\Table(name="stop")
- * @ORM\Table(indexes={@ORM\Index(name="idx_log_stop", columns={"position"})})
+ * @ORM\Table(name="ass_stop_company")
  * @ORM\Entity
  */
-class Stop
+class Visit
 {
     /**
      * @ORM\Column(type="integer")
@@ -24,53 +23,31 @@ class Stop
     private $id;
 
 	/**
-     * @ORM\Column(type="integer", length=100)
+     * @ORM\Column(type="integer")
      */
-    private $user_id;
+    private $stop_id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $start;
+    private $company_id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="integer")
+     */
+    private $distance;
+
+	/**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stop", inversedBy="visits")
+     * @ORM\JoinColumn(name="stop_id", referencedColumnName="id")
      */
     private $stop;
-
-	/**
-     * @ORM\Column(type="integer", length=100)
-     */
-    private $duration;
-
-    /**
-	 * @ORM\Column(type="point")
-     */
-    private $position;
-
-	/**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $created;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updated;
-
-	/**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User\User", inversedBy="stops")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user;
-
-	/**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Visit", mappedBy="stop")
-     */	
-    private $visits;
 	
+	/**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Company", inversedBy="visits")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     */
+    private $company;
 	
 	/**********************
 	 * GET METHODS        *
@@ -84,93 +61,54 @@ class Stop
     }
 
     /**
-     * @return \DateTime 
-     */
-    public function getStart(){
-        return $this->start;
-    }
-
-    /**
-     * @return \DateTime 
-     */
-    public function getStop(){
-        return $this->stop;
-    }
-
-    /**
-     * @return \Int 
-     */
-    public function getDuration(){
-        return $this->duration;
-    }
-
-    /**
-     * @return point 
-     */
-    public function getPosition(){
-        return $this->position;
-    }
-	
-    /**
      * @return integer
      */
     public function getUserId(){
         return $this->user_id;
     }
 
+    /**
+     * @return integer
+     */
+    public function getCompanyId(){
+        return $this->company_id;
+    }
+
 	/**********************
 	 * SET METHODS        *
 	 **********************/
 
-    /**
-     * @param \DateTime $end
-     * @return Training
-     */
-    public function setDatetime($datetime){
-        $this->datetime = $datetime;
-        return $this;
-    }
-
-    /**
-     * @param point $lastposition
-     * @return Training
-     */
-    public function setPosition($position){
-        $this->position = $position;
-        return $this;
-    }
-
-    /**
-     * @param integer $userId
-     * @return Training
-     */
     public function setUserId($userId){
         $this->user_id = $userId;
         return $this;
     }
 
-    /**
-     * @return \Stop 
-     */
-    public function setStart($start){
-        $this->start = $start;
+    public function setCompanyId($companyId){
+        $this->company_id = $companyId;
         return $this;
     }
 
-    /**
-     * @return \Stop 
-     */
-    public function setStop($stop){
+    public function setStop(\AppBundle\Entity\Stop $stop = null){
         $this->stop = $stop;
         return $this;
     }
 
-    /**
-     * @return \Stop 
-     */
     public function setDuration($duration){
         $this->duration = $duration;
         return $this;
+    }
+
+    public function setDistance($distance){
+        $this->distance = $distance;
+        return $this;
+    }
+
+    public function getDuration(){
+        return $this->duration;
+    }
+
+    public function getDistance(){
+        return $this->distance;
     }
 
 	/****************************
@@ -213,6 +151,29 @@ class Stop
 	/***************************
 	 * RELATIONSHIP MANAGEMENT *
 	 ***************************/
+
+    /**
+     * @param \AppBundle\Entity\Company $company
+     * @return Visit
+     */
+    public function setCompany(\AppBundle\Entity\Company $company = null){
+        $this->company = $company;
+        return $this;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Company
+     */
+    public function getCompany(){
+        return $this->company;
+    }
+
+    /**
+     * @return \AppBundle\Entity\Company
+     */
+    public function getStop(){
+        return $this->stop;
+    }
 
     /**
      * @param \AppBundle\Entity\User\User $user
