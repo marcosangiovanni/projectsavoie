@@ -19,7 +19,7 @@ class PositionAdmin extends Admin
 	
     protected function configureDatagridFilters(DatagridMapper $datagridMapper){
         $datagridMapper	->add('user','doctrine_orm_callback', array(
-	            												'callback' => array('AppBundle\Util\Utility', 'filterByName'),
+	            												'callback' => array('AppBundle\Util\Utility', 'filterByUserId'),
 	            												'field_type' => 'text',
              												  ), 
              												  'entity',array(

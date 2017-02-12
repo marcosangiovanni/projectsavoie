@@ -21,12 +21,12 @@ class StopAdmin extends Admin
 	
     protected function configureDatagridFilters(DatagridMapper $datagridMapper){
         $datagridMapper	->add('user','doctrine_orm_callback', array(
-	            												'callback' => array('AppBundle\Util\Utility', 'filterByName'),
+	            												'callback' => array('AppBundle\Util\Utility', 'filterByUserId'),
 	            												'field_type' => 'text',
              												  ), 
              												  'entity',array(
 														                'class' => 'AppBundle\Entity\User\User',
-														                'choice_label' => 'id'
+														                'choice_label' => 'username'
 															  )
 						)
 						//->add('duration','sonata_type_filter_number')
