@@ -21,25 +21,31 @@ services:
         class: AppBundle\Admin\CompanyAdmin
         arguments: [~, AppBundle\Entity\Company, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Company }
+            - { group: Company, name: sonata.admin, manager_type: orm, label: Company }
                         
     admin.visit:
         class: AppBundle\Admin\VisitAdmin
         arguments: [~, AppBundle\Entity\Visit, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Visit }
+            - { group: Tracker, name: sonata.admin, manager_type: orm, label: Visit }
                         
     admin.position:
         class: AppBundle\Admin\PositionAdmin
         arguments: [~, AppBundle\Entity\Position, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Position }
+            - { group: Tracker, name: sonata.admin, manager_type: orm, label: Position }
                         
     admin.stop:
         class: AppBundle\Admin\StopAdmin
         arguments: [~, AppBundle\Entity\Stop, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Stop }
+            - { group: Tracker, name: sonata.admin, manager_type: orm, label: Stop }
+                        
+    admin.config:
+        class: AppBundle\Admin\ConfigAdmin
+        arguments: [~, AppBundle\Entity\Config, ~]
+        tags:
+            - { group: Config, name: sonata.admin, manager_type: orm, label: Config }
                         
     api_authentication_entry_point:
          class: AppBundle\Entity\Auth\ApiAuthenticationEntryPoint

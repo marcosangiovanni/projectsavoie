@@ -41,7 +41,7 @@ class PositionManager
 			$query = $repository->createQueryBuilder('l')
 
 					//Select fields	
-    				->select("st_distance_sphere(l.position,point(:y_position,:x_position)) as distance_in_meters")
+    				->select("st_distance_sphere(l.position,point(:x_position,:y_position)) as distance_in_meters")
 
 					//Filtering conditions    	
     				->where('l.id = :lastposition_id')
@@ -58,7 +58,10 @@ class PositionManager
 			
 			$distance = $distance[0]['distance_in_meters'];
 			
-			if($distance < 20){
+			//Get position min value from config table
+			$config = $em->getRepository('AppBundle:Config')->findOneByCode('max_distance_for_stop');
+			
+			if($distance < $config->getValue()){
 				//If distance is lower than N it's a "stay in place" and i create a Stop entity
 				if($lastposition->getStopId()){
 					//Recupero lo stop	
@@ -92,10 +95,10 @@ class PositionManager
 						$query = $repository->createQueryBuilder('c')
 	
 						//Select fields	
-	    				->select("c.id,st_distance_sphere(c.position,point(:y_position,:x_position)) as distance_in_meters")
+	    				->select("c.id,st_distance_sphere(c.position,point(:x_position,:y_position)) as distance_in_meters")
 	
 						//Filtering conditions    	
-	    				->where("st_distance_sphere(c.position,point(:y_position,:x_position)) < 100")
+	    				->where("st_distance_sphere(c.position,point(:x_position,:y_position)) < 100")
 	
 						->setParameter('x_position', $position->getPosition()->getX())
 						->setParameter('y_position', $position->getPosition()->getY())
