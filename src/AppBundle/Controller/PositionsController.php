@@ -34,16 +34,19 @@ class PositionsController extends FOSRestController
     	//Find USER By Token
     	$logged_user = $this->get('security.context')->getToken()->getUser();
 		
-        $position = $this->getDoctrine()->getRepository('AppBundle:Position')->findBy(
-																				    array('user_id' => $logged_user->getId()),
-																				    array('created' => 'DESC'),
-																				    30
-																				);
 		
-		if(!$position){
+		$result = $this->getDoctrine()->getRepository('AppBundle:Position')->createQueryBuilder('p')
+																				->select('p.position,p.created')
+    																			->where('p.user_id = :user_id')
+    																			->setParameter('user_id', $logged_user->getId())
+    																			->orderBy('p.created', 'DESC')
+																				->setMaxResults(50)
+    	->getQuery()->getResult();
+		
+		if(!$result){
 			throw $this->createNotFoundException('No collection found');
 		}else{
-			$view = $this->view($position, 200);
+			$view = $this->view($result, 200);
         	return $this->handleView($view);
 		}
     }
